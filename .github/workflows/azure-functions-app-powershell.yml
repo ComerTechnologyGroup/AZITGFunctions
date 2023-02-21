@@ -38,9 +38,9 @@ jobs:
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
-        $env:Azure_Credentials
+          Write-Output "$env:AZURE_CREDENTIALS"
           $ht = @{}
-          $creds = $env:AZURE_Credentials| Convertfrom-json
+          $creds = $env:AZURE_CREDENTIALS| Convertfrom-json
           foreach($prop in $creds){
             $ht[$prop.name]=$prop.value
           }
