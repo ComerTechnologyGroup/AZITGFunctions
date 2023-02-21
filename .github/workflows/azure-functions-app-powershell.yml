@@ -63,3 +63,56 @@ jobs:
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+
+
+$azure_credentials = @"
+[
+  {
+    "name": "ApplicationId",
+    "value": "37597f58-ef3d-47f8-b030-5f3963f7d4d2",
+    "slotSetting": false
+  },
+  {
+    "name": "ApplicationSecret",
+    "value": "9Tnx9YHQhdO9QUM05aPKR6Yq2V4f5u6gx8PB2m7CzNk=",
+    "slotSetting": false
+  },
+  {
+    "name": "Description",
+    "value": "Microsoft 365 Secure Score Syncing to IT Glue",
+    "slotSetting": false
+  },
+  {
+    "name": "ExchangeRefreshToken",
+    "value": "0.ASwAbDkDY7rGP0iKLoPNFBvtXRY8x6Djp2RFmpUr30c4NxYsAE4.AgABAAEAAAD--DLA3VO7QrddgJg7WevrAgDs_wQA9P9OdwgUN5IJloBpHAfCtcBtI1-gboeKNeKq_um1cUroFZ69lkCJuSBVap0YeNgHI2P8Te8AVSyBK4kzDVsJ1iLVPas2iS-__HWg0A4WyR28-ug1NNHs7Rtbj_gLR91WJ8_pLbaodQKKMLn92I3xpPZFh-KZktoTX1XmDZQZqzAfDZAR0b7XIXydZj5zQy9PZDSpGgGvN9quiyOGz28LCBFADGp1bF-cUCbzzqWt3j6zMlV1S_EPgY-lJ_A1CvkP3cMF4TbDv3RwjjF04W04vySQnZ-w3QucGGb9QKlPTHZ8LGQikMaU8KHRvjjbXxoVIkzIziJCuVgXT-pbA9OIPNNZvIhuNKtnJdFVMW7hkZCnc2QbOCvX5UEYZoyfL_BpPLEl5JddS16knU11iA_tzgPYZK-pkFSuAMLwGLIfECszO4spp67_CW0QX4B5Klu_UvxHfFjGtcs25h6uuJNvP88uo_e9RDgd0fw1_yED62NIYwOGVhn4HHxt_RCdvrHZo6VOYsVWfVion3RYU3HsXbhxN-Y-aobCSVTKzv0nh2fdPeE-9JpUrBpUm13_3VoOFMGbP_pVQOEra3WmCSHm9rvzuK3jqA2gIXhGYtb9-Y63Yz_oC7aRCfEN1_D-QVC1TPAJs2lnI95PI8cZ50TldyBkezp26iX9pwSMGy79ATKOvBowht_nN2Wr6bwTjbLNMSEdNxCi_XpuK8WznILIpLm3ZhIR9NjGfJ8II2DL3NLHtiBKQjrBmKQYdMc7whlSZ3rYaGb8E5NaO4BAjSujfu5NF4kaWdm-FTTkGFkI3pSiXx4tuJSDZllHPtdMdg",
+    "slotSetting": false
+  },
+  {
+    "name": "FlexAssetName",
+    "value": "M365 Secure Score",
+    "slotSetting": false
+  },
+  {
+    "name": "ITGApiKey",
+    "value": "ITG.a58ad4c055979c0bc4e0d5726bafb2d2.xwGI5bwpqCI7mSGRzPh23H-HBILDcw2mRzlzu3SmWF8EDkZP2LVFiV9k-_rRjKY_",
+    "slotSetting": false
+  },
+  {
+    "name": "RefreshToken",
+    "value": "0.ASwAbDkDY7rGP0iKLoPNFBvtXVh_WTc97_hHsDBfOWP31NIsAE4.AgABAAEAAAD--DLA3VO7QrddgJg7WevrAgDs_wQA9P91I03_TCttBfgld0RnaY6FCuyDOAInYiWnyTgdNPEkU1XaViOpYHXYF3piYaH8FisvGCIwGDgy-z9O2P7RsShqDU4zN5lYDVIijcbd8qXNvy8scBX4-JLQOd6M07HCjSWQoNwLAQc325jMMNUqrlEJHy0b3fktpwKSo5x0aGfh1OfLPi33_AVrTApCpNAZaZUAYih77q16MEp1O1mQeqwv8FjOG6OISTW74V_v3rd4v84T6uF7vjzM0pZpH4rl3QIu3_Bzao5-m6O0rveMj0bO5-aH92lN2tEsdRdWuGI4WCnDhVmc3zgOYrPGIeBnIfCX7CHY77KbS3FkGSmdS-FsivIld1r3KrRbK04mNmoubbnK5oaPI8pt3n8sf2o8qTenisV77Clj2gmhVely4RGvKajtF46wv94IvXs7KXXVyyhNZCGqTkzocNVzD2mMW7YCDGZRqM4xbTgkzPP-awg9BenMGtzGXVPKguJbVYC-ZBcAtUdAwEcAb7I7H2rJIOnRB3XecMjSDOMqbJG00N0owMtLfR3E6SGk9pngTAegR7Qo08S_DAXu1XeD_FskVn7fOlH3o_ZBTL3yDzuaY2Z8syCLZimjlffiCibFjXHmBFLAG97c03wDnLZNHOi4CFtmnnJ4QYAT4EdK8lKCAdbPhBaX4xpW4fKLt1R-PobPbKHGIJ4fSTLEp4dfirM-F1roYt4hIENTo3LGXLJduaGrLg95C-rNijFci9Njb9rjOuC0jLxsTOofxnRE62JBXwIa7qKyd3isBGjq6PhACloJG12ZH3DoMwx4YzLEW6osZUR2MvBsq2VDYegkYEZgTJzjCpyOMTKQe9rbBC7y3d-EFlAVA0WCmXJMU-WPj_MseGVXeAj8qTA15-_IG8-Jb0_-a-76Jj2LsOIHDxlOMEkr0R7xQalKR0NIaGAzcu1ogxYPz7XarQUtKElEcCZAYt-3aWJVrCwOPfHYX2a8nmAN4inoWbVFYLuq0hW_BKO0FgiE5ws42GR_H0dA",
+    "slotSetting": false
+  },
+  {
+    "name": "TenandId",
+    "value": "6303396c-c6ba-483f-8a2e-83cd141bed5d",
+    "slotSetting": false
+  },
+  {
+    "name": "UPN",
+    "value": "qcomer@comertechnology.com",
+    "slotSetting": false
+  }
+]
+@"
+
+

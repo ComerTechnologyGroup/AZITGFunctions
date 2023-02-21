@@ -147,7 +147,7 @@ $DomainList = foreach ($Contact in $AllITGlueContacts) {
 $Scores = get-securescore -AllTenants -upn $upn -ApplicationSecret $ApplicationSecret -ApplicationId $ApplicationId -RefreshToken $RefreshToken
 
 foreach ($Score in $scores) {
-    $FlexAssetBody =
+   $FlexAssetBody =
     @{
         type       = "flexible-assets"
         attributes = @{
