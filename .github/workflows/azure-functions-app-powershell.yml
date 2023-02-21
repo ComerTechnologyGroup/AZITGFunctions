@@ -30,10 +30,16 @@ jobs:
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} # Remove publish-profile to use Azure RBAC
-
-    - task: AzureAppServiceSettings@1
+          #publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} # Remove publish-profile to use Azure RBAC
+      - uses: azure/login@v1
       with:
-          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-          app-settings-json: ${{secrets.APPLICATION_SETTINGS}}
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+    - uses: azure/appservice-settings@v1
+      with:
+        app-name: 'AZITGFunctions'
+        app-settings-json: '${{ secrets.APPLICATION_SETTINGS }}' 
+        general-settings-json: '{"alwaysOn": "false", "webSocketsEnabled": "true"}' #'General configuration settings as Key Value pairs'
       id: settings
+    - run: echo "The webapp-url is ${{ steps.settings.outputs}}"
+    - run: |
+        az logout
