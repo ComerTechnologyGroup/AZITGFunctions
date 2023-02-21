@@ -10,8 +10,11 @@
 
 name: Deploy PowerShell project to Azure Function App
 
-on: [push]
-on: [workflow_dispatch]
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_NAME: "AZITGFunctions" # set this to your function app name on Azure
