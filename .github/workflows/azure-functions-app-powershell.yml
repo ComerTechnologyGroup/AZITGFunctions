@@ -30,7 +30,6 @@ jobs:
 
       - name: "Login to Azure Resources"
         shell: pwsh
-        env:
         run: |
           $ht = @{}
           $creds = ${{ secrets.AZURE_CREDENTIALS }} | Convertfrom-json
