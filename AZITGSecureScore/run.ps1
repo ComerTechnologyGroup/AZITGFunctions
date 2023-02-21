@@ -39,13 +39,15 @@ $modules.GetEnumerator() | ForEach-Object {
         exit 1
     }
 }
+
+$session = Get-PSSession -Name WinPSCompatSession
+
+Invoke-Command -Session $session -Command {
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+}
 #Settings IT-Glue logon information
 Add-ITGlueBaseURI -base_uri $APIEndpoint
 Add-ITGlueAPIKey $APIKEy
-
-
-install-module SecureScore
-install-module PsWriteHTML
 
 
 write-host "Checking if Flexible Asset exists in IT-Glue." -foregroundColor green
