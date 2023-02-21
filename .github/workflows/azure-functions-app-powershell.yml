@@ -10,7 +10,7 @@
 
 name: Deploy PowerShell project to Azure Function App
 
-on: [push]
+on: [push],[workflow_dispatch]
 
 env:
   AZURE_FUNCTIONAPP_NAME: "AZITGSecureScore" # set this to your function app name on Azure
@@ -20,28 +20,11 @@ env:
 jobs:
   build-and-deploy:
     runs-on: windows-latest # For Linux, use ubuntu-latest
-    environment: dev
+    environment: production
     steps:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v3
-
-      #substitute production appsettings entries to appsettings json file
-      - name: App Settings Variable Substitution
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: "${{env.DOTNET_ROOT}}/*/appsettings.json"
-        env:
-          ApplicationId: ${{ secrets.ApplicationId }}
-          ApplicationSecret: ${{ secrets.ApplicationSecret}}
-          Description: ${{secrets.Description}}
-          ExchangeRefreshToken: ${{secrets.ExchangeRefreshToken}}
-          FlexAssetName: ${{secrets.FlexAssetName}}
-          ITGApiKey: ${{secrets.ITGApiKey}}
-          RefreshToken: ${{secrets.RefreshToken}}
-          TenandId: ${{secrets.TenandId}}
-          UPN: ${{secrets.UPN}}
-          ApiEndpoint: $${{secrets.ApiEndpoint}}
-
+        
       - name: "Run Azure Functions Action"
         uses: Azure/functions-action@v1
         id: fa
@@ -49,3 +32,10 @@ jobs:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} # Remove publish-profile to use Azure RBAC
+
+    - task: AzureAppServiceSettings@1
+      with:
+          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+          app-settings-json: ${{secrets.APPLICATION_SETTINGS}}
+      id: settings
+    - run: echo "The Azure Function settinhs are ${{ steps.settings.outputs }}"
