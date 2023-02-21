@@ -39,11 +39,12 @@ jobs:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
           #Login to Azure Resources
-          $clientId = ($env:AZURE_CREDENTIALS | ConvertFrom-Json).clientId.value
-          $clientSecret = ($env:AZURE_CREDENTIALS | ConvertFrom-Json).clientSecret.value | ConvertTo-SecureString -AsPlainText -Force
-          $tenantId = ($env:AZURE_CREDENTIALS | ConvertFrom-Json).tenantId.value
-          $credentials = New-Object System.Management.Automation.PSCredential($clientId, $clientSecret)
-          $connected = Connect-AzAccount -ServicePrincipal -Credential $credentials -Tenant $tenantId
+          $creds = $($env:AZURE_Credentials|Convertfrom-json)
+          $ht = @{}
+          foreach($prop in $creds){$ht[$prop.name]=$prop.value}
+          $applicationsecret = ConvertTo-SecureString -String $ht.applicationSecret -asplaintext -force
+          $credentials = New-Object System.Management.Automation.PSCredential($ht.ApplicationId, $ApplicationSecret)
+          $connected = Connect-AzAccount -ServicePrincipal -Credential $credentials -Tenant $ht.tenandId
 
       ## - name: "Login to Azure Resources"
       ##  uses: azure/login@v1
@@ -103,7 +104,7 @@ $azure_credentials = @"
     "slotSetting": false
   },
   {
-    "name": "TenandId",
+    "name": "TenantId",
     "value": "6303396c-c6ba-483f-8a2e-83cd141bed5d",
     "slotSetting": false
   },
