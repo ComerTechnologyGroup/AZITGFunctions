@@ -28,10 +28,27 @@ jobs:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v3
 
+      - name: "Install Azure PowerShell Module"
+        shell: pwsh
+        run: |
+          Install-Module -Name AzRm -RequiredVersion ((Find-Module -Name AzRm)[0].Version) -AllowClobber -Scope CurrentUser -Force
+
       - name: "Login to Azure Resources"
-        uses: azure/login@v1
-        with:
-        creds: "${{ secrets.AZURE_CREDENTIALS }}"
+        shell: pwsh
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          #Login to Azure Resources
+          $clientId = ($env:AZURE_CREDENTIALS | ConvertFrom-Json).clientId.value
+          $clientSecret = ($env:AZURE_CREDENTIALS | ConvertFrom-Json).clientSecret.value | ConvertTo-SecureString -AsPlainText -Force
+          $tenantId = ($env:AZURE_CREDENTIALS | ConvertFrom-Json).tenantId.value
+          $credentials = New-Object System.Management.Automation.PSCredential($clientId, $clientSecret)
+          $connected = Connect-AzAccount -ServicePrincipal -Credential $credentials -Tenant $tenantId
+
+      ## - name: "Login to Azure Resources"
+      ##  uses: azure/login@v1
+      ## with:
+      ##  creds: "${{ secrets.AZURE_CREDENTIALS }}"
 
       - name: "Update App Service Settings"
         uses: Azure/appservice-settings@v1
