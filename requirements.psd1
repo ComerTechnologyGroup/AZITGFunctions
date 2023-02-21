@@ -6,6 +6,6 @@
     # To use the Az module in your function app, please uncomment the line below.
     # 'Az' = '9.*'
     'ITGlueApi' = '2.*'
-    'PSWriteHTML' = '0.0.183'
+    'PSWriteHTML' = '0.*'
     'SecureScore' = '1.*'
 }

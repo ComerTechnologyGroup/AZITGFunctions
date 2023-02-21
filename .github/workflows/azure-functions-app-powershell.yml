@@ -37,7 +37,7 @@ jobs:
         shell: pwsh
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-        run: | 
+        run: |
           #Login to Azure Resources
           $clientId = ($env:AZURE_CREDENTIALS | ConvertFrom-Json).clientId
           $clientSecret = ($env:AZURE_CREDENTIALS | ConvertFrom-Json).clientSecret | ConvertTo-SecureString -AsPlainText -Force
@@ -45,10 +45,10 @@ jobs:
           $credentials = New-Object System.Management.Automation.PSCredential($clientId, $clientSecret)
           $connected = Connect-AzAccount -ServicePrincipal -Credential $credentials -Tenant $tenantId
 
-     ## - name: "Login to Azure Resources"
+      ## - name: "Login to Azure Resources"
       ##  uses: azure/login@v1
-       ## with:
-        ##  creds: "${{ secrets.AZURE_CREDENTIALS }}"
+      ## with:
+      ##  creds: "${{ secrets.AZURE_CREDENTIALS }}"
 
       - name: "Update App Service Settings"
         uses: Azure/appservice-settings@v1
@@ -63,8 +63,3 @@ jobs:
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-      
-      - name: "Logout of Azure"
-        shell: pwsh
-        run: |
-        Disconnect-AzAccount
