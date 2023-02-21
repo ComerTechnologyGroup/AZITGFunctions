@@ -27,12 +27,7 @@ jobs:
     steps:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v3
-
-      - name: "Install Azure PowerShell Module"
-        shell: pwsh
-        run: |
-          Install-Module -Name Az -RequiredVersion ((Find-Module -Name Az)[0].Version) -AllowClobber -Force
-
+        
       - name: "Login to Azure Resources"
         shell: pwsh
         env:
