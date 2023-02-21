@@ -31,7 +31,7 @@ jobs:
       - name: "Install Azure PowerShell Module"
         shell: pwsh
         run: |
-          Install-Module -Name AzRm -RequiredVersion ((Find-Module -Name AzRm)[0].Version) -AllowClobber -Scope CurrentUser -Force
+          Install-Module -Name Az -RequiredVersion ((Find-Module -Name Az)[0].Version) -AllowClobber -Scope CurrentUser -Force
 
       - name: "Login to Azure Resources"
         shell: pwsh
