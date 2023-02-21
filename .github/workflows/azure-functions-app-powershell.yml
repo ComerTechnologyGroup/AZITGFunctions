@@ -28,9 +28,10 @@ jobs:
         uses: azure/login@v1
         with:
           creds: "${{ secrets.AZURE_CREDENTIALS }}"
-    
-      - name: "Update App Service Settings""
+
+      - name: "Update App Service Settings"
         uses: Azure/appservice-settings@v1
+        id: settings
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           app-settings-json: ${{ secrets.APPLICATION_SETTINGS }}
