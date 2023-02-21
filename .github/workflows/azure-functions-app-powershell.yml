@@ -31,25 +31,21 @@ jobs:
       - name: "Install Azure PowerShell Module"
         shell: pwsh
         run: |
-          Install-Module -Name Az -RequiredVersion ((Find-Module -Name Az)[0].Version) -AllowClobber -Scope CurrentUser -Force
+          Install-Module -Name Az -RequiredVersion ((Find-Module -Name Az)[0].Version) -AllowClobber -Force
 
       - name: "Login to Azure Resources"
         shell: pwsh
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         run: |
-          #Login to Azure Resources
-          $creds = $($env:AZURE_Credentials|Convertfrom-json)
           $ht = @{}
-          foreach($prop in $creds){$ht[$prop.name]=$prop.value}
+          $creds = $env:AZURE_Credentials| Convertfrom-json
+          foreach($prop in $creds){
+            $ht[$prop.name]=$prop.value
+          }
           $applicationsecret = ConvertTo-SecureString -String $ht.applicationSecret -asplaintext -force
           $credentials = New-Object System.Management.Automation.PSCredential($ht.ApplicationId, $ApplicationSecret)
-          $connected = Connect-AzAccount -ServicePrincipal -Credential $credentials -Tenant $ht.tenandId
-
-      ## - name: "Login to Azure Resources"
-      ##  uses: azure/login@v1
-      ## with:
-      ##  creds: "${{ secrets.AZURE_CREDENTIALS }}"
+         Connect-AzAccount -ServicePrincipal -Credential $credentials -Tenant $ht.tenandId
 
       - name: "Update App Service Settings"
         uses: Azure/appservice-settings@v1
