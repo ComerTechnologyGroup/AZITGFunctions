@@ -1,8 +1,8 @@
 name: Dump GitHub contexts to log file
-on: [workflow_dispatch]
+on: workflow_dispatch
 
 jobs:
-  - name: Dump contexts to logs
+  dump_contexts_to_log:
     runs-on: ubuntu-latest
     steps:
       - name: Dump context
