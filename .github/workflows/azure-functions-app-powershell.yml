@@ -39,11 +39,12 @@ jobs:
 
       - name: "Login to Azure Resources"
         uses: azure/powershell@v1
+        env: AZURE_CREDENTIALS = ${{ secrets.AZURE_CREDENTIALS }}
         with:
           inlineScript: |
             Import-Module -Name AZ -Force
             $ht = @{}
-            $creds = ${{ secrets.AZURE_CREDENTIALS }} | Convertfrom-json
+            $creds = ${env:AZURE_CREDENTIALS} | Convertfrom-json
             foreach($prop in $creds){$ht[$prop.name]=$prop.value}
             $applicationsecret = ConvertTo-SecureString -String $ht.applicationSecret -asplaintext -force
             $credentials = New-Object System.Management.Automation.PSCredential($ht.ApplicationId, $ApplicationSecret)
