@@ -28,28 +28,11 @@ jobs:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v3
 
-      - name: "Verify AZ Powershell Module"
-        uses: azure/powershell@v1
+      - name: Login via Az module
+        uses: azure/login@v1
         with:
-          inlineScript: |
-            if((Get-Module -Name AZ -ListAvailable).Version -lt (Find-Module -Name AZ)[0].Version){
-              Install-Module -Name AZ -AllowClobber -Force
-            }
-          azPSVersion: "latest"
-
-      - name: "Login to Azure Resources"
-        uses: azure/powershell@v1
-        env: AZURE_CREDENTIALS = ${{ secrets.AZURE_CREDENTIALS }}
-        with:
-          inlineScript: |
-            Import-Module -Name AZ -Force
-            $ht = @{}
-            $creds = ${env:AZURE_CREDENTIALS} | Convertfrom-json
-            foreach($prop in $creds){$ht[$prop.name]=$prop.value}
-            $applicationsecret = ConvertTo-SecureString -String $ht.applicationSecret -asplaintext -force
-            $credentials = New-Object System.Management.Automation.PSCredential($ht.ApplicationId, $ApplicationSecret)
-            $Connected = Connect-AzAccount -ServicePrincipal -Credential $credentials -Tenant $ht.tenandId
-          azPSVersion: "latest"
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+          enable-AzPSSession: true
 
       - name: "Update App Service Settings"
         uses: Azure/appservice-settings@v1
