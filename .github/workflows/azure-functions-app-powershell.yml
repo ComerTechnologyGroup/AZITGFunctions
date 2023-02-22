@@ -32,12 +32,12 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-          $ht = @{}
-          $creds = ${{ secrets.AZURE_CREDENTIALS }} | Convertfrom-json
-          foreach($prop in $creds){$ht[$prop.name]=$prop.value}
-          $applicationsecret = ConvertTo-SecureString -String $ht.applicationSecret -asplaintext -force
-          $credentials = New-Object System.Management.Automation.PSCredential($ht.ApplicationId, $ApplicationSecret)
-          $Connected = Connect-AzAccount -ServicePrincipal -Credential $credentials -Tenant $ht.tenandId
+            $ht = @{}
+            $creds = ${{ secrets.AZURE_CREDENTIALS }} | Convertfrom-json
+            foreach($prop in $creds){$ht[$prop.name]=$prop.value}
+            $applicationsecret = ConvertTo-SecureString -String $ht.applicationSecret -asplaintext -force
+            $credentials = New-Object System.Management.Automation.PSCredential($ht.ApplicationId, $ApplicationSecret)
+            $Connected = Connect-AzAccount -ServicePrincipal -Credential $credentials -Tenant $ht.tenandId
 
       - name: "Update App Service Settings"
         uses: Azure/appservice-settings@v1
