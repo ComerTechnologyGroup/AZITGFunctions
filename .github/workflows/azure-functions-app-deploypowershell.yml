@@ -1,0 +1,10 @@
+name: Import Function using Bicep Template
+on: [workflow_displach]
+
+permissions:
+  id-token: write
+  content: read
+
+jobs:
+  deploy:
+  name: Import Function using Bicep T
