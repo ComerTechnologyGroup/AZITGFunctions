@@ -1,5 +1,5 @@
 name: Dump GitHub contexts to log file
-on: [workflow_displach]
+on: [workflow_dispatch]
 
 jobs:
   - name: Dump contexts to logs
