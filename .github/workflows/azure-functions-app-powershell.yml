@@ -28,6 +28,9 @@ jobs:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v3
 
+      - name: Metrics embed
+        uses: lowlighter/metrics@v3.32
+
       - name: Login via Az module
         uses: azure/login@v1
         with:
