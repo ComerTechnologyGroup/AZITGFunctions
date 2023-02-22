@@ -35,6 +35,7 @@ jobs:
             if((Get-Module -Name AZ -ListAvailable).Version -lt (Find-Module -Name AZ)[0].Version){
               Install-Module -Name AZ -AllowClobber -Force
             }
+          azPSVersion: "latest"
 
       - name: "Login to Azure Resources"
         uses: azure/powershell@v1
@@ -47,6 +48,7 @@ jobs:
             $applicationsecret = ConvertTo-SecureString -String $ht.applicationSecret -asplaintext -force
             $credentials = New-Object System.Management.Automation.PSCredential($ht.ApplicationId, $ApplicationSecret)
             $Connected = Connect-AzAccount -ServicePrincipal -Credential $credentials -Tenant $ht.tenandId
+          azPSVersion: "latest"
 
       - name: "Update App Service Settings"
         uses: Azure/appservice-settings@v1
