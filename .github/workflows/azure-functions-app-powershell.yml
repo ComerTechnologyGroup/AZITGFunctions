@@ -28,14 +28,13 @@ jobs:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v3
 
-      - name "Verify AZ Powershell Module"
+      - name: "Verify AZ Powershell Module"
         uses: azure/powershell@v1
         with:
           inlineScript: |
             if((Get-Module -Name AZ -ListAvailable).Version -lt (Find-Module -Name AZ)[0].Version){
               Install-Module -Name AZ -AllowClobber -Force
             }
-
 
       - name: "Login to Azure Resources"
         uses: azure/powershell@v1
