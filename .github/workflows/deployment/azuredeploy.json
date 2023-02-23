@@ -11,7 +11,7 @@
   "parameters": {
     "functionAppName": {
       "type": "string",
-      "defaultValue": "[format('func-itglue-', uniqueString(resourceGroup().id))]",
+      "defaultValue": "[format('func-itglue-{0}', uniqueString(resourceGroup().id))]",
       "metadata": {
         "description": "The name of the Azure Function app."
       }
@@ -40,8 +40,8 @@
     },
     "functionWorkerRuntime": {
       "type": "string",
-      "defaultValue": "node",
-      "allowedValues": ["dotnet", "node", "python", "java"],
+      "defaultValue": "powershell",
+      "allowedValues": ["powershell"],
       "metadata": {
         "description": "The language worker runtime to load in the function app."
       }
@@ -50,7 +50,7 @@
   "variables": {
     "hostingPlanName": "[parameters('functionAppName')]",
     "applicationInsightsName": "[parameters('functionAppName')]",
-    "storageAccountName": "[format('{0}azfunctions', uniqueString(resourceGroup().id))]"
+    "storageAccountName": "[parameters('functionAppName')]"
   },
   "resources": [
     {
