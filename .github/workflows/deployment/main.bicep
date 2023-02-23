@@ -16,6 +16,9 @@
 @description('The name of the Azure Function app.')
 param functionAppName string = 'func-itglue-${uniqueString(resourceGroup().id)}'
 
+@description('The name of the Azure Function app.')
+param resourceGroupName string = functionAppName
+
 @description('Location for all resources.')
 param location string = resourceGroup().location
 
@@ -52,6 +55,7 @@ var functionWorkerRuntime = 'powershell'
 /*
  ** Resources
  */
+
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   name: storageAccountName
   location: location
