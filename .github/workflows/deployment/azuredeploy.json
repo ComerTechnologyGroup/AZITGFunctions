@@ -11,7 +11,7 @@
   "parameters": {
     "functionAppName": {
       "type": "string",
-      "defaultValue": "[format('func-{0}', uniqueString(resourceGroup().id))]",
+      "defaultValue": "[format('func-itglue-', uniqueString(resourceGroup().id))]",
       "metadata": {
         "description": "The name of the Azure Function app."
       }
