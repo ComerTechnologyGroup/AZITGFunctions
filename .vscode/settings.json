@@ -1,5 +1,7 @@
 {
   "azureFunctions.deploySubpath": ".",
   "azureFunctions.projectLanguage": "PowerShell",
-  "azureFunctions.projectRuntime": "~4"
+  "azureFunctions.projectRuntime": "~4",
+  "cSpell.enableFiletypes": ["!json"],
+  "editor.showUnused": false
 }
