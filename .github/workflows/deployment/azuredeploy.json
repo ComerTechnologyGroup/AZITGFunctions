@@ -40,16 +40,10 @@
     },
     "functionWorkerRuntime": {
       "type": "string",
-      "defaultValue": "powershell",
-      "allowedValues": "powershell",
+      "defaultValue": "node",
+      "allowedValues": ["dotnet", "node", "python", "java"],
       "metadata": {
         "description": "The language worker runtime to load in the function app."
-      }
-    },
-    "linuxFxVersion": {
-      "type": "string",
-      "metadata": {
-        "description": "Required for Linux app to represent runtime stack in the format of 'runtime|runtimeVersion'. For example: 'python|3.9'"
       }
     }
   },
@@ -107,7 +101,6 @@
         "reserved": true,
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "siteConfig": {
-          "linuxFxVersion": "[parameters('linuxFxVersion')]",
           "appSettings": [
             {
               "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
@@ -132,10 +125,6 @@
             {
               "name": "FUNCTIONS_WORKER_RUNTIME",
               "value": "[parameters('functionWorkerRuntime')]"
-            },
-            {
-              "name": "WEBSITE_RUN_FROM_PACKAGE",
-              "value": "[parameters('packageUri')]"
             }
           ]
         }

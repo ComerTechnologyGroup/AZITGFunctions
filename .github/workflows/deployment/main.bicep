@@ -12,11 +12,9 @@
 /*
  ** Parameters
  */
-@description('Required for Linux app to represent runtime stack in the format of \'runtime|runtimeVersion\'. For example: \'python|3.9\'')
-param linuxFxVersion string
 
 @description('The name of the Azure Function app.')
-param functionAppName string = 'func-${appName}-${uniqueString(resourceGroup().id)}'
+param functionAppName string = 'func-${uniqueString(resourceGroup().id)}'
 
 @description('Location for all resources.')
 param location string = resourceGroup().location
@@ -36,9 +34,6 @@ param appInsightsLocation string = resourceGroup().location
 ])
 @description('Storage account SKU name')
 param storageSkuName string = 'Standard_LRS'
-
-@description('Desired Application Name/Display Name(example: ITGlueDocs)')
-param appName string = 'ITGlueDocs'
 
 /*
  ** Variables
@@ -100,7 +95,6 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
     reserved: true
     serverFarmId: hostingPlan.id
     siteConfig: {
-      linuxFxVersion: linuxFxVersion
       appSettings: [
         {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
