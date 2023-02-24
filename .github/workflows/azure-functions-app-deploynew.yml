@@ -25,7 +25,7 @@ jobs:
         shell: bash
   set-variables:
     runs-on: ubuntu-latest
-    if: ${{contains(${{ inputs.resourceGroupName }}, 'env.AZ_RG')}}
+    if: ${{ (inputs.resourceGroupName == 'env.AZ_RG') }}
     outputs:
       AZ_RG: "{{ `{{ env.AZURE_RG `}} }}"
     if: ${{!(contains(${{ inputs.resourceGroupName }},'env.AZ_RG'))}}
