@@ -24,13 +24,10 @@ jobs:
         run: az bicep build --file ${{ inputs.bicepFilePath }}
         shell: bash
   set-variables:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.resourceGroupName == 'env.AZ_RG' }}
-    outputs:
-      AZ_RG: "{{ `{{ env.AZURE_RG `}} }}"
-    if: ${{ github.event.inputs.resourceGroupName != 'env.AZ_RG' }}
-    outputs:
-      AZ_RG: "${{ inputs.resourceGroupName }}"
+    ${{ if inputs.resourceGroupName == 'env.AZURE_RG' }}:
+      AZURE_RG: ${{ `{{ inputs.resourceGroupName `}} }}
+    ${{ if !inputs.resourceGroupName == 'env.AZURE_RG'}}:
+      AZURE_RG: ${{ inputs.resourceGroupName}}
   build-and-deploy:
     runs-on: ubuntu-latest # For Linux, use ubuntu-latest
     environment: prod
