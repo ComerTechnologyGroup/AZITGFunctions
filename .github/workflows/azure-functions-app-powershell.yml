@@ -10,14 +10,14 @@
 
 name: Deploy PowerShell project to Azure Function App
 on:
-  push:
-    inputs:
-      bicepFilePath:
-        description: Path to the bicep file
-        required: true
-        default: ./deployment/main.deploy.bicep
-    branches:
-      - master
+  # push:
+  #   inputs:
+  #     bicepFilePath:
+  #       description: Path to the bicep file
+  #       required: true
+  #       default: ./deployment/main.deploy.bicep
+  #   branches:
+  #     - master
   workflow_dispatch:
     inputs:
       bicepFilePath:
