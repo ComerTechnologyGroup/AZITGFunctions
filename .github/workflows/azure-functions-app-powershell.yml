@@ -9,7 +9,6 @@
 # 2. Change env variables for your configuration.
 
 name: Deploy PowerShell project to Azure Function App
-description: This workflow will deploy a PowerShell project to an Azure Functions
 
 branding:
   icon: "package"
