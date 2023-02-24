@@ -23,7 +23,8 @@ env:
 jobs:
   build-and-deploy:
     runs-on: windows-latest # For Linux, use ubuntu-latest
-    environment: dev
+    environment: prod
+    needs: [lint, validate]
     steps:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v3
