@@ -25,8 +25,12 @@ jobs:
         shell: bash
   set-variables:
     runs-on: ubuntu-latest
-    steps:
-      - run: echo "${{ inputs.resourceGroupName }}"
+    if: "contains('env.AZ_RG','${{ inputs.resourceGroupName }}')"
+    outputs:
+      AZ_RG: "{{ `{{ env.AZURE_RG `}} }}"
+    if: "!contains('env.AZ_RG','${{ inputs.resourceGroupName }}')"
+    outputs:
+      AZ_RG: "${{ inputs.resourceGroupName }}"
   build-and-deploy:
     runs-on: ubuntu-latest # For Linux, use ubuntu-latest
     environment: prod
@@ -39,6 +43,9 @@ jobs:
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
           enable-AzPSSession: true
+      - name: echo output
+        run: |
+          echo "${{ set-variables.outputs.AZ_RG}}"
       # - name: Deploy Function App
       #   uses: azure/arm-deploy@v1
       #   with:
