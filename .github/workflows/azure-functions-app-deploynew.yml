@@ -28,6 +28,8 @@ jobs:
       AZURE_RG: ${{ `{{ inputs.resourceGroupName `}} }}
     ${{ if !inputs.resourceGroupName == 'env.AZURE_RG'}}:
       AZURE_RG: ${{ inputs.resourceGroupName}}
+    output:
+      AZURE_RG: ${{ AZURE_RG }}
   build-and-deploy:
     runs-on: ubuntu-latest # For Linux, use ubuntu-latest
     environment: prod
@@ -42,7 +44,7 @@ jobs:
           enable-AzPSSession: true
       - name: echo output
         run: |
-          echo "${{ set-variables.outputs.AZ_RG}}"
+          echo "${{ set-variables.outputs.AZ_RG }}"
       # - name: Deploy Function App
       #   uses: azure/arm-deploy@v1
       #   with:
