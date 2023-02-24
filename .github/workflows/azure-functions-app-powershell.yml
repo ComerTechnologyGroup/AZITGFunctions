@@ -15,7 +15,7 @@ on:
       bicepFilePath:
         description: Path to the bicep file
         required: true
-        default: deployment/main.deploy.bicep
+        default: ./deployment/main.deploy.bicep
         branches:
           - master
   workflow_dispatch:
@@ -23,7 +23,7 @@ on:
       bicepFilePath:
         description: Path to the bicep file
         required: true
-        default: deployment/main.deploy.bicep
+        default: ./deployment/main.deploy.bicep
         branches:
           - master
 
@@ -38,7 +38,7 @@ jobs:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v3
       - name: Run Bicep Linter
-        run: az bicep build --file "${{ inputs.bicepFilePath }}"
+        run: az bicep build --file ${{ inputs.bicepFilePath }}
         shell: bash
   build-and-deploy:
     runs-on: windows-latest # For Linux, use ubuntu-latest
