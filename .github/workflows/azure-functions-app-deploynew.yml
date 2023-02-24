@@ -28,7 +28,7 @@ jobs:
     if: ${{ (inputs.resourceGroupName == 'env.AZ_RG') }}
     outputs:
       AZ_RG: "{{ `{{ env.AZURE_RG `}} }}"
-    if: ${{ !(inputs.resourceGroupName == 'env.AZ_RG') }}
+    if: ${{ !inputs.resourceGroupName == 'env.AZ_RG' }}
     outputs:
       AZ_RG: "${{ inputs.resourceGroupName }}"
   build-and-deploy:
