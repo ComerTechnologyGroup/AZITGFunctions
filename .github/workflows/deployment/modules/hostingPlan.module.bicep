@@ -3,6 +3,7 @@ param functionAppName string
 param tagValues object = {}
 
 var hostingPlanName = functionAppName
+targetScope = 'resourceGroup'
 
 resource hostingPlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: hostingPlanName

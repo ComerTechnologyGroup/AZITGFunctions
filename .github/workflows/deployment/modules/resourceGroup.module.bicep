@@ -9,5 +9,5 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   tags: tagValues
 }
 
-output resourceGroupName string = resourceGroup.name
 output resourceGroupId string = resourceGroup.id
+output resourceGroupName string = resourceGroup.name

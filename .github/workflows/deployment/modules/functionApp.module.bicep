@@ -2,9 +2,13 @@ param location string
 param functionAppName string
 param tagValues object
 param hostingPlanName string
+param appInnsightInstrKey string
+
 param functionWorkerRuntime string
 @secure()
 param connectionString string
+@secure()
+param appInsightConnString string
 
 resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
   name: functionAppName
@@ -19,6 +23,10 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
           value: reference(resourceId('Microsoft.Insights/components', functionAppName), '2020-02-02').InstrumentationKey
+        }
+        {
+          name: 'APPINSIGHTS_CONNECTION_STRING'
+          value: appInsightConnString
         }
         {
           name: 'AzureWebJobsStorage'
