@@ -9,6 +9,9 @@
 # 2. Change env variables for your configuration.
 
 name: Deploy PowerShell project to Azure Function App
+branding:
+  icon: checkmark
+  color: blue
 on:
   # push:
   #   inputs:
