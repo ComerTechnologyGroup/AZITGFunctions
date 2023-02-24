@@ -26,7 +26,7 @@ jobs:
   set-variables:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "${{resourceGroupName}}""
+      - run: echo "${{resourceGroupName}}"
   build-and-deploy:
     runs-on: ubuntu-latest # For Linux, use ubuntu-latest
     environment: prod
