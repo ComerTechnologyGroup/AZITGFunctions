@@ -1,13 +1,4 @@
-# This workflow will deploy a PowerShell project to an Azure Functions App on Windows or Linux when a commit is pushed to your default branch.
-#
-# This workflow assumes you have already created the target Azure Functions app.
-# For instructions see https://learn.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-powershell
-#
-# To configure this workflow:
-# 1. Set up the following secrets in your repository:
-#   - AZURE_FUNCTIONAPP_PUBLISH_PROFILE
-# 2. Change env variables for your configuration.
-name: Deploy PowerShell project to Azure Function App
+name: "Deploy Function Apps"
 on:
   workflow_dispatch:
     inputs:
