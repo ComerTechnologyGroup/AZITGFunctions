@@ -27,19 +27,10 @@ jobs:
       - uses: actions/@checkoutv3
       - name: Run Bicep Linter
         run: az bicep build --file './deployment/main.deploy.bicep'
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/@checkoutv2
-      - uses: azure/login@v1
-        name: Sign in to Azure
-        with:
-          creds: ${{secrets.AZURE_CREDENTIALS}}
-          enable-AzPSSession: true
   build-and-deploy:
     runs-on: windows-latest # For Linux, use ubuntu-latest
     environment: prod
-    needs: [lint, validate]
+    needs: lint
     steps:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v3
