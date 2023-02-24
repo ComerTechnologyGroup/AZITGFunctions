@@ -17,7 +17,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2022-09-01' = {
 }
 
 module storageModule './modules/storage.module.bicep' = {
-  scope: resourceGroup
+  scope: az.resourceGroup(resourceGroup.name)
   name: 'storageName'
   params: {
     location: location
@@ -29,7 +29,7 @@ module storageModule './modules/storage.module.bicep' = {
 }
 
 module appInsightModule './modules/appInsight.module.bicep' = {
-  scope: resourceGroup
+  scope: az.resourceGroup(resourceGroup.name)
   name: 'appInsightName'
   params: {
     location: location
@@ -41,7 +41,7 @@ module appInsightModule './modules/appInsight.module.bicep' = {
 }
 
 module hostingPlanModule './modules/hostingPlan.module.bicep' = {
-  scope: resourceGroup
+  scope: az.resourceGroup(resourceGroup.name)
   name: 'hostingPlanName'
   params: {
     location: location
@@ -53,7 +53,7 @@ module hostingPlanModule './modules/hostingPlan.module.bicep' = {
 }
 
 module functionAppModule './modules/functionApp.module.bicep' = {
-  scope: resourceGroup
+  scope: az.resourceGroup(resourceGroup.name)
   name: 'functionAppName'
   params: {
     location: location
