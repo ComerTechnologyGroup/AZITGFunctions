@@ -21,7 +21,7 @@ on:
   #       required: true
   #       default: ./deployment/main.deploy.bicep
   #   branches:
-  #     - master
+  #     - [$default-branch]
   workflow_dispatch:
     inputs:
       bicepFilePath:
@@ -29,11 +29,11 @@ on:
         required: true
         default: .github/workflows/deployment/main.deploy.bicep
     branches:
-      - master
+      - [$default-branch]
 
 env:
-  AZURE_FUNCTIONAPP_NAME: "AZITGFunctions" # set this to your function app name on Azure
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: "." # set this to the path to your function app project, defaults to the repository root
+  appName: "AZITGFunctions" # set this to your function app name on Azure
+  packagePath: "." # set this to the path to your function app project, defaults to the repository root
 
 jobs:
   linter:
