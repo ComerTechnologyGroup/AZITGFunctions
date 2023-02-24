@@ -7,18 +7,8 @@
 # 1. Set up the following secrets in your repository:
 #   - AZURE_FUNCTIONAPP_PUBLISH_PROFILE
 # 2. Change env variables for your configuration.
-
 name: Deploy PowerShell project to Azure Function App
-
 on:
-  # push:
-  #   inputs:
-  #     bicepFilePath:
-  #       description: Path to the bicep file
-  #       required: true
-  #       default: ./deployment/main.deploy.bicep
-  #   branches:
-  #     - [$default-branch]
   workflow_dispatch:
     inputs:
       bicepFilePath:
