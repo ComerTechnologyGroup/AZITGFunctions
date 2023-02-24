@@ -9,6 +9,17 @@
 # 2. Change env variables for your configuration.
 
 name: Deploy PowerShell project to Azure Function App
+description: This workflow will deploy a PowerShell project to an Azure Functions
+
+branding:
+  icon: check
+  color: blue
+
+inputs:
+  bicepFilePath:
+    description: Path to the bicep file
+    required: true
+    default: ./deployment/main.deploy.bicep
 
 on:
   push:
@@ -25,8 +36,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run Bicep Linter
-        run: |
-          az bicep build --file deployment/main.deploy.bicep
+        - run: |
+          az bicep build --file"${{ inputs.bicepFilePath }}"
+        shell: bash
   build-and-deploy:
     runs-on: windows-latest # For Linux, use ubuntu-latest
     environment: prod
