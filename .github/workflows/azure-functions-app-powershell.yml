@@ -65,11 +65,11 @@ jobs:
         uses: Azure/appservice-settings@v1
         id: settings
         with:
-          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+          app-name: ${{ env.appName}}
           app-settings-json: ${{ secrets.APPLICATION_SETTINGS }}
       - name: "Run Azure Functions Action"
         uses: Azure/functions-action@v1
         id: fa
         with:
-          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          app-name: ${{ env.AappName}}
+          package: ${{ env.packagePath }}
