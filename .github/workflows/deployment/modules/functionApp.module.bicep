@@ -2,12 +2,7 @@ param location string
 param functionAppName string
 param tagValues object
 param hostingPlanName string
-param storageAccountName string
-param storageAccount object
-param appInsightName string
 param functionWorkerRuntime string
-@secure()
-param primaryKey string
 @secure()
 param connectionString string
 
@@ -15,6 +10,7 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
   name: functionAppName
   location: location
   kind: 'functionapp,linux'
+  tags: tagValues
   properties: {
     reserved: true
     serverFarmId: resourceId('Microsoft.Web/serverfarms', hostingPlanName)
@@ -34,7 +30,7 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
         }
         {
           name: 'WEBSITE_CONTENTSHARE'
-          value: toLower(functionAppName)
+          value: functionAppName
         }
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'

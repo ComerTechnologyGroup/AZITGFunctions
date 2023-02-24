@@ -2,7 +2,7 @@ targetScope = 'subscription'
 
 @description('Optional. Location of the Resource Group. It uses the deployment\'s location when not provided.')
 param location string = deployment().location
-param functionAppName string = 'func-itglue-${uniqueString(subscription().id)}'
+param functionAppName string = 'funcitglue${uniqueString(subscription().id)}'
 param currentDate string = utcNow('yyyy-MM-dd')
 param tagValues object = {
   createdBy: 'Github Action'
@@ -10,75 +10,72 @@ param tagValues object = {
   product: 'function'
   subscription: subscription().id
 }
-@allowed([ 'powershell' ])
-param functionWorkerRuntime string = 'powershell'
 
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: functionAppName
-  location: location
-  tags: tagValues
+module resourceGroupModule './modules/resourceGroup.module.bicep' = {
+  name: 'resourceGroup'
+  params: {
+    location: location
+    functionAppName: functionAppName
+    tagValues: tagValues
+  }
 }
 
 module storageModule './modules/storage.module.bicep' = {
-  scope: az.resourceGroup(resourceGroup.name)
+  scope: az.resourceGroup(resourceGroupModule.name)
   name: 'storageName'
   params: {
-    location: resourceGroup.location
-    functionAppName: 'func-itglue-${uniqueString(resourceGroup.id)}'
+    location: location
+    functionAppName: functionAppName
     tagValues: union(tagValues, {
-        resourceGroup: resourceGroup.name
+        resourceGroup: az.resourceGroup(resourceGroupModule.name)
       })
   }
 }
 
 module appInsightModule './modules/appInsight.module.bicep' = {
-  scope: az.resourceGroup(resourceGroup.name)
+  scope: az.resourceGroup(resourceGroupModule.name)
   name: 'appInsightName'
   params: {
-    location: resourceGroup.location
-    functionAppName: 'func-itglue-${uniqueString(resourceGroup.id)}'
+    location: location
+    functionAppName: 'func-itglue-${uniqueString(resourceGroupModule.outputs.resourceGroupId)}'
     tagValues: union(tagValues, {
-        resourceGroup: resourceGroup.name
+        resourceGroup: az.resourceGroup(resourceGroupModule.name)
       })
   }
 }
 
 module hostingPlanModule './modules/hostingPlan.module.bicep' = {
-  scope: az.resourceGroup(resourceGroup.name)
+  scope: az.resourceGroup(resourceGroupModule.name)
   name: 'hostingPlanName'
   params: {
-    location: resourceGroup.location
-    functionAppName: 'func-itglue-${uniqueString(resourceGroup.id)}'
+    location: location
+    functionAppName: 'func-itglue-${uniqueString(resourceGroupModule.outputs.resourceGroupId)}'
     tagValues: union(tagValues, {
-        resourceGroup: resourceGroup.name
+        resourceGroup: az.resourceGroup(resourceGroupModule.name)
       })
   }
 }
 
 module functionAppModule './modules/functionApp.module.bicep' = {
-  scope: az.resourceGroup(resourceGroup.name)
+  scope: az.resourceGroup(resourceGroupModule.name)
   name: 'functionAppName'
   params: {
-    location: resourceGroup.location
-    functionAppName: 'func-itglue-${uniqueString(resourceGroup.id)}'
-    functionWorkerRuntime: functionWorkerRuntime
-    storageAccountName: storageModule.outputs.storageName
-    storageAccount: storageModule.outputs
-    appInsightName: appInsightModule.outputs.appInsightName
+    location: location
+    functionAppName: 'func-itglue-${uniqueString(resourceGroupModule.outputs.resourceGroupId)}'
+    functionWorkerRuntime: 'powershell'
     hostingPlanName: hostingPlanModule.outputs.hostingPlanName
     connectionString: storageModule.outputs.connectionString
-    primaryKey: storageModule.outputs.primaryKey
     tagValues: union(tagValues, {
-        resourceGroup: resourceGroup.name
+        resourceGroup: az.resourceGroup(resourceGroupModule.name)
       })
   }
 }
 
 @description('The name of the resource group')
-output rgName string = resourceGroup.name
+output rgName string = resourceGroupModule.outputs.resourceGroupName
 
 @description('The resource ID of the resource group.')
-output resourceId string = resourceGroup.id
+output resourceId string = resourceGroupModule.outputs.resourceGroupId
 
 @description('The location the resource was deployed into.')
-output location string = resourceGroup.location
+output location string = location
