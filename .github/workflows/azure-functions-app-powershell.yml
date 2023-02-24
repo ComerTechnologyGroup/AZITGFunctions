@@ -25,7 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run Bicep Linter
-        run: az bicep build --file 'deployment/main.deploy.bicep'
+        run: |
+          az bicep build --file deployment/main.deploy.bicep
   build-and-deploy:
     runs-on: windows-latest # For Linux, use ubuntu-latest
     environment: prod
