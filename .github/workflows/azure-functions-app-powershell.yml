@@ -9,11 +9,6 @@
 # 2. Change env variables for your configuration.
 
 name: Deploy PowerShell project to Azure Function App
-
-branding:
-  icon: check
-  color: blue
-
 inputs:
   bicepFilePath:
     description: Path to the bicep file
