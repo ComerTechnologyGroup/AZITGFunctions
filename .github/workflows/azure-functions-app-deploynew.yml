@@ -24,6 +24,7 @@ jobs:
         run: az bicep build --file ${{ inputs.bicepFilePath }}
         shell: bash
   set-variables:
+    runs-on: ubuntu-latest
     ${{ if inputs.resourceGroupName == 'env.AZURE_RG' }}:
       AZURE_RG: ${{ `{{ inputs.resourceGroupName `}} }}
     ${{ if !inputs.resourceGroupName == 'env.AZURE_RG'}}:
