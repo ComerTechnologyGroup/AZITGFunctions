@@ -1,5 +1,6 @@
 name: "Deploy Function Apps"
-on: workflow_dispatch
+on: 
+  workflow_dispatch
     inputs:
       bicepFilePath:
         description: Path to the bicep file
