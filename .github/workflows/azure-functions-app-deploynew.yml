@@ -27,8 +27,6 @@ jobs:
   linter:
     runs-on: ubuntu-latest
     steps:
-      - name: Generate RG Name for Variable
-        run: ::set-output name:
       - name: Checkout Github Repository
         uses: actions/checkout@v3
       - name: Run Bicep Linter
@@ -50,7 +48,7 @@ jobs:
         uses: azure/arm-deploy@v1
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
-          resourceGroupName: ${{inputs.resourceGroupName}}
+          resourceGroupName: ${{AZ_RG}}
           enable-AzPSSession: true
           template: { { inputs.bicepFilePath } }
           failOnStdError: false
