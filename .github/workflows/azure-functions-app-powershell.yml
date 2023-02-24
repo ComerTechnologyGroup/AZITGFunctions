@@ -9,17 +9,21 @@
 # 2. Change env variables for your configuration.
 
 name: Deploy PowerShell project to Azure Function App
-inputs:
+on:
+  push:
+  inputs:
   bicepFilePath:
     description: Path to the bicep file
     required: true
     default: ./deployment/main.deploy.bicep
-
-on:
-  push:
     branches:
       - master
   workflow_dispatch:
+    description: Path to the bicep file
+    required: true
+    default: ./deployment/main.deploy.bicep
+    branches:
+      - master
 
 env:
   AZURE_FUNCTIONAPP_NAME: "AZITGFunctions" # set this to your function app name on Azure
