@@ -37,7 +37,7 @@ jobs:
         uses: azure/arm-deploy@v1
         with:
           deploymentName: ${{ github.run_number}}
-          resourceGroup: TestAzureAction
+          resourceGroupName: TestAzureAction
           template: ${{ inputs.bicepFilePath}}
           parameters: environmentType=test
           deploymentMode: Validate
