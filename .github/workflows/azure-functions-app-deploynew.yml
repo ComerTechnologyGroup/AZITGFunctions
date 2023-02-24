@@ -10,7 +10,7 @@ on:
       resourceGroupName:
         description: Resource Group Name
         required: true
-        default: ${{secrets.AZURE_RG}}
+        default: ${{env.AZURE_RG}}
     branches:
       - master
 
@@ -41,5 +41,5 @@ jobs:
           creds: ${{secrets.AZURE_CREDENTIALS}}
           resourceGroupName: ${{inputs.resourceGroupName}}
           enable-AzPSSession: true
-          template: {{ inputs.bicepFilePath }}
+          template: { { inputs.bicepFilePath } }
           failOnStdError: false
