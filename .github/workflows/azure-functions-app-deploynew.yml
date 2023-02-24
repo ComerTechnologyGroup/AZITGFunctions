@@ -10,18 +10,9 @@ on:
       resourceGroupName:
         description: Resource Group Name
         required: true
-        default: 'env.AZURE_RG'
+        default: "env.AZURE_RG"
     branches:
       - master
-
-env:
-  if: contains(inputs.resourceGroupName,'env.AZURE_RG')
-  AZ_RG: '${{ env.AZURE_RG }}'
-  run: echo "${{ AZ_RG }}"
-  run: echo "${{ env.AZURE_RG }}"
-  if: "!contains(inputs.resourceGroupName,'env.AZURE_RG')"
-  AZ_RG: '${{ inputs.resourceGroupName }}'
-  run: echo "${{ inputs.resourceGroupName }}"
 
 jobs:
   linter:
@@ -32,6 +23,10 @@ jobs:
       - name: Run Bicep Linter
         run: az bicep build --file ${{ inputs.bicepFilePath }}
         shell: bash
+  set-variables:
+    runs-on: ubuntu-latest
+    steps:
+      run: echo "${{resourceGroupName}}""
   build-and-deploy:
     runs-on: ubuntu-latest # For Linux, use ubuntu-latest
     environment: prod
@@ -44,11 +39,11 @@ jobs:
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
           enable-AzPSSession: true
-      - name: Deploy Function App
-        uses: azure/arm-deploy@v1
-        with:
-          creds: ${{secrets.AZURE_CREDENTIALS}}
-          resourceGroupName: ${{AZ_RG}}
-          enable-AzPSSession: true
-          template: { { inputs.bicepFilePath } }
-          failOnStdError: false
+      # - name: Deploy Function App
+      #   uses: azure/arm-deploy@v1
+      #   with:
+      #     creds: ${{secrets.AZURE_CREDENTIALS}}
+      #     resourceGroupName: ${{AZ_RG}}
+      #     enable-AzPSSession: true
+      #     template: { { inputs.bicepFilePath } }
+      #     failOnStdError: false
