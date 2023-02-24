@@ -25,10 +25,11 @@ jobs:
         shell: bash
   set-variables:
     runs-on: ubuntu-latest
-    ${{ if inputs.resourceGroupName == 'env.AZURE_RG' }}:
-      AZURE_RG: ${{ `{{ inputs.resourceGroupName `}} }}
-    ${{ if !inputs.resourceGroupName == 'env.AZURE_RG'}}:
-      AZURE_RG: ${{ inputs.resourceGroupName}}
+    steps:
+      ${{ if inputs.resourceGroupName == 'env.AZURE_RG' }}:
+        AZURE_RG: ${{ `{{ inputs.resourceGroupName `}} }}
+      ${{ if !inputs.resourceGroupName == 'env.AZURE_RG'}}:
+        AZURE_RG: ${{ inputs.resourceGroupName}}
     output:
       AZURE_RG: ${{ AZURE_RG }}
   build-and-deploy:
