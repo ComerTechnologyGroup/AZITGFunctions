@@ -1,4 +1,4 @@
-name: "Deploy Function Apps"
+name: "Update Function App on Pull"
 
 on:
   workflow_dispatch:

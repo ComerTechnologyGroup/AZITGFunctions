@@ -1,7 +1,5 @@
-targetScope = 'subscription'
-
 @description('Optional. Location of the Resource Group. It uses the deployment\'s location when not provided.')
-param location string = deployment().location
+param location string = resourceGroup().location
 param suffix string = uniqueString(subscription().id)
 param prefix string = 'func-itglue'
 param functionAppName string = '${prefix}-${suffix}'
@@ -10,74 +8,58 @@ param tagValues object = {
   createdBy: 'Github Action'
   deploymentDate: currentDate
   product: 'function'
-  subscription: subscription().id
   environment: 'prod'
   relatedFunction: functionAppName
 }
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2022-09-01' = {
-  name: functionAppName
-  location: location
-  tags: tagValues
-}
+var resourceGroupId = resourceGroup().id
+var resourceGroupName = resourceGroup().name
 
 module storageModule './modules/storage.module.bicep' = {
-  scope: az.resourceGroup(resourceGroup.id)
   name: 'storageName'
   params: {
     location: location
     functionAppName: functionAppName
-    tagValues: union(tagValues, {
-        resourceGroup: resourceGroup
-      })
+    tagValues: tagValues
   }
 }
 
 module appInsightModule './modules/appInsight.module.bicep' = {
-  scope: az.resourceGroup(resourceGroup.id)
   name: 'appInsightName'
   params: {
     location: location
-    functionAppName: 'func-itglue-${uniqueString(resourceGroup.id)}'
-    tagValues: union(tagValues, {
-        resourceGroup: resourceGroup
-      })
+    functionAppName: 'func-itglue-${uniqueString(resourceGroupId)}'
+    tagValues: tagValues
   }
 }
 
 module hostingPlanModule './modules/hostingPlan.module.bicep' = {
-  scope: az.resourceGroup(resourceGroup.id)
   name: 'hostingPlanName'
   params: {
     location: location
-    functionAppName: 'func-itglue-${uniqueString(resourceGroup.id)}'
-    tagValues: union(tagValues, {
-        resourceGroup: resourceGroup
-      })
+    functionAppName: 'func-itglue-${uniqueString(resourceGroupId)}'
+    tagValues: tagValues
   }
 }
 
 module functionAppModule './modules/functionApp.module.bicep' = {
-  scope: az.resourceGroup(resourceGroup.id)
   name: 'functionAppName'
   params: {
     location: location
     appInnsightInstrKey: appInsightModule.outputs.appInsightInstrKey
     appInsightConnString: appInsightModule.outputs.appInsightConnString
-    functionAppName: 'func-itglue-${uniqueString(resourceGroup.id)}'
+    functionAppName: 'func-itglue-${uniqueString(resourceGroupId)}'
     functionWorkerRuntime: 'powershell'
     hostingPlanName: hostingPlanModule.outputs.hostingPlanName
     connectionString: storageModule.outputs.connectionString
-    tagValues: union(tagValues, {
-        resourceGroup: resourceGroup
-      })
+    tagValues: tagValues
   }
 }
 
 @description('The name of the resource group')
-output rgName string = resourceGroup.name
+output rgName string = resourceGroupName
 
 @description('The resource ID of the resource group.')
-output resourceId string = resourceGroup.id
+output resourceId string = resourceGroupId
 
 @description('The location the resource was deployed into.')
 output location string = location

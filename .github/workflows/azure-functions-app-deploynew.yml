@@ -1,0 +1,45 @@
+name: "Create new Function App"
+
+on:
+  workflow_dispatch:
+    inputs:
+      bicepFilePath:
+        description: Path to the bicep file
+        required: true
+        default: .github/workflows/deployment/main.deploy.bicep
+      resourceGroupName:
+        description: Resource Group Name
+        required: true
+        default: ${{secrets.AZURE_RG}}
+    branches:
+      - master
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Github Repository
+        uses: actions/checkout@v3
+      - name: Run Bicep Linter
+        run: az bicep build --file ${{ inputs.bicepFilePath }}
+        shell: bash
+  build-and-deploy:
+    runs-on: ubuntu-latest # For Linux, use ubuntu-latest
+    environment: prod
+    needs: linter
+    steps:
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@v3
+      - name: Login via Az module
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+          enable-AzPSSession: true
+      - name: Deploy Function App
+        uses: azure/arm-deploy@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+          resourceGroupName: ${{inputs.resourceGroupName}}
+          enable-AzPSSession: true
+          template: {{ inputs.bicepFilePath }}
+          failOnStdError: false
