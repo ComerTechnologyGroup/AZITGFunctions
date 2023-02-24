@@ -1,13 +1,14 @@
 name: "Deploy Function Apps"
-on: 
-  workflow_dispatch
+
+on:
+  workflow_dispatch:
     inputs:
       bicepFilePath:
         description: Path to the bicep file
         required: true
         default: .github/workflows/deployment/main.deploy.bicep
     branches:
-      - [$default-branch]
+      - master
 
 env:
   appName: "AZITGFunctions" # set this to your function app name on Azure
