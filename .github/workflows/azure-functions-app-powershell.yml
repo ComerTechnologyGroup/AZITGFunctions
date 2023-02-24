@@ -35,18 +35,36 @@ env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: "." # set this to the path to your function app project, defaults to the repository root
 
 jobs:
-  lint:
+  linter:
     runs-on: ubuntu-latest
     steps:
-      - name: "Checkout GitHub Action"
+      - name: Checkout Github Repository
         uses: actions/checkout@v3
       - name: Run Bicep Linter
         run: az bicep build --file ${{ inputs.bicepFilePath }}
         shell: bash
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Github Repository
+        uses: actions/checkout@v3
+      - name: Login to Azure AD
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+          enable-AzPSSession: true
+      - name: Run ARM validation test
+        uses: azure/arm-deploy@v1
+        with:
+          deploymentName: ${{ github.run_number}}
+          resourceGroup: TestAzureAction
+          template: ${{ inputs.bicepFilePath}}
+          parameters: environmentType=test
+          deploymentMode: Validate
   build-and-deploy:
     runs-on: windows-latest # For Linux, use ubuntu-latest
     environment: prod
-    needs: lint
+    needs: validate
     steps:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v3
