@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.14.85.62628",
-      "templateHash": "6848006479362627965"
+      "templateHash": "14099847258887432324"
     }
   },
   "parameters": {
@@ -36,74 +36,17 @@
   },
   "resources": [
     {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2020-10-01",
-      "name": "resourceGroup",
-      "location": "[deployment().location]",
-      "properties": {
-        "expressionEvaluationOptions": {
-          "scope": "inner"
-        },
-        "mode": "Incremental",
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "functionAppName": {
-            "value": "[parameters('functionAppName')]"
-          },
-          "tagValues": {
-            "value": "[parameters('tagValues')]"
-          }
-        },
-        "template": {
-          "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
-          "metadata": {
-            "_generator": {
-              "name": "bicep",
-              "version": "0.14.85.62628",
-              "templateHash": "13734772647786749556"
-            }
-          },
-          "parameters": {
-            "location": {
-              "type": "string"
-            },
-            "functionAppName": {
-              "type": "string"
-            },
-            "tagValues": {
-              "type": "object"
-            }
-          },
-          "resources": [
-            {
-              "type": "Microsoft.Resources/resourceGroups",
-              "apiVersion": "2022-09-01",
-              "name": "[parameters('functionAppName')]",
-              "location": "[parameters('location')]",
-              "tags": "[parameters('tagValues')]"
-            }
-          ],
-          "outputs": {
-            "resourceGroupName": {
-              "type": "string",
-              "value": "[parameters('functionAppName')]"
-            },
-            "resourceGroupId": {
-              "type": "string",
-              "value": "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('functionAppName'))]"
-            }
-          }
-        }
-      }
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2022-09-01",
+      "name": "[parameters('functionAppName')]",
+      "location": "[parameters('location')]",
+      "tags": "[parameters('tagValues')]"
     },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "storageName",
-      "resourceGroup": "resourceGroup",
+      "resourceGroup": "[parameters('functionAppName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -117,7 +60,7 @@
             "value": "[parameters('functionAppName')]"
           },
           "tagValues": {
-            "value": "[union(parameters('tagValues'), createObject('resourceGroup', createObject()))]"
+            "value": "[union(parameters('tagValues'), createObject('resourceGroup', reference(subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('functionAppName')), '2022-09-01', 'full')))]"
           }
         },
         "template": {
@@ -190,14 +133,14 @@
         }
       },
       "dependsOn": [
-        "[subscriptionResourceId('Microsoft.Resources/deployments', 'resourceGroup')]"
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('functionAppName'))]"
       ]
     },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "appInsightName",
-      "resourceGroup": "resourceGroup",
+      "resourceGroup": "[parameters('functionAppName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -208,10 +151,10 @@
             "value": "[parameters('location')]"
           },
           "functionAppName": {
-            "value": "[format('func-itglue-{0}', uniqueString(reference(subscriptionResourceId('Microsoft.Resources/deployments', 'resourceGroup'), '2020-10-01').outputs.resourceGroupId.value))]"
+            "value": "[format('func-itglue-{0}', uniqueString(subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('functionAppName'))))]"
           },
           "tagValues": {
-            "value": "[union(parameters('tagValues'), createObject('resourceGroup', createObject()))]"
+            "value": "[union(parameters('tagValues'), createObject('resourceGroup', reference(subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('functionAppName')), '2022-09-01', 'full')))]"
           }
         },
         "template": {
@@ -262,14 +205,14 @@
         }
       },
       "dependsOn": [
-        "[subscriptionResourceId('Microsoft.Resources/deployments', 'resourceGroup')]"
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('functionAppName'))]"
       ]
     },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "hostingPlanName",
-      "resourceGroup": "resourceGroup",
+      "resourceGroup": "[parameters('functionAppName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -280,10 +223,10 @@
             "value": "[parameters('location')]"
           },
           "functionAppName": {
-            "value": "[format('func-itglue-{0}', uniqueString(reference(subscriptionResourceId('Microsoft.Resources/deployments', 'resourceGroup'), '2020-10-01').outputs.resourceGroupId.value))]"
+            "value": "[format('func-itglue-{0}', uniqueString(subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('functionAppName'))))]"
           },
           "tagValues": {
-            "value": "[union(parameters('tagValues'), createObject('resourceGroup', createObject()))]"
+            "value": "[union(parameters('tagValues'), createObject('resourceGroup', reference(subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('functionAppName')), '2022-09-01', 'full')))]"
           }
         },
         "template": {
@@ -342,14 +285,14 @@
         }
       },
       "dependsOn": [
-        "[subscriptionResourceId('Microsoft.Resources/deployments', 'resourceGroup')]"
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('functionAppName'))]"
       ]
     },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "functionAppName",
-      "resourceGroup": "resourceGroup",
+      "resourceGroup": "[parameters('functionAppName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -360,19 +303,19 @@
             "value": "[parameters('location')]"
           },
           "functionAppName": {
-            "value": "[format('func-itglue-{0}', uniqueString(reference(subscriptionResourceId('Microsoft.Resources/deployments', 'resourceGroup'), '2020-10-01').outputs.resourceGroupId.value))]"
+            "value": "[format('func-itglue-{0}', uniqueString(subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('functionAppName'))))]"
           },
           "functionWorkerRuntime": {
             "value": "powershell"
           },
           "hostingPlanName": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, 'resourceGroup'), 'Microsoft.Resources/deployments', 'hostingPlanName'), '2020-10-01').outputs.hostingPlanName.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('functionAppName')), 'Microsoft.Resources/deployments', 'hostingPlanName'), '2020-10-01').outputs.hostingPlanName.value]"
           },
           "connectionString": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, 'resourceGroup'), 'Microsoft.Resources/deployments', 'storageName'), '2020-10-01').outputs.connectionString.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('functionAppName')), 'Microsoft.Resources/deployments', 'storageName'), '2020-10-01').outputs.connectionString.value]"
           },
           "tagValues": {
-            "value": "[union(parameters('tagValues'), createObject('resourceGroup', createObject()))]"
+            "value": "[union(parameters('tagValues'), createObject('resourceGroup', reference(subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('functionAppName')), '2022-09-01', 'full')))]"
           }
         },
         "template": {
@@ -464,23 +407,23 @@
         }
       },
       "dependsOn": [
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, 'resourceGroup'), 'Microsoft.Resources/deployments', 'hostingPlanName')]",
-        "[subscriptionResourceId('Microsoft.Resources/deployments', 'resourceGroup')]",
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, 'resourceGroup'), 'Microsoft.Resources/deployments', 'storageName')]"
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('functionAppName')), 'Microsoft.Resources/deployments', 'hostingPlanName')]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('functionAppName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('functionAppName')), 'Microsoft.Resources/deployments', 'storageName')]"
       ]
     }
   ],
   "outputs": {
     "rgName": {
       "type": "string",
-      "value": "[reference(subscriptionResourceId('Microsoft.Resources/deployments', 'resourceGroup'), '2020-10-01').outputs.resourceGroupName.value]",
+      "value": "[parameters('functionAppName')]",
       "metadata": {
         "description": "The name of the resource group"
       }
     },
     "resourceId": {
       "type": "string",
-      "value": "[reference(subscriptionResourceId('Microsoft.Resources/deployments', 'resourceGroup'), '2020-10-01').outputs.resourceGroupId.value]",
+      "value": "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('functionAppName'))]",
       "metadata": {
         "description": "The resource ID of the resource group."
       }
