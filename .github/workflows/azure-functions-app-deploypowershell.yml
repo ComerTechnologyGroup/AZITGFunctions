@@ -9,7 +9,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     if: github.run_number == 1
-    needs: [lint,validate]
     steps:
      - name: "Checkout GitHub Action"
         uses: actions/checkout@v3
