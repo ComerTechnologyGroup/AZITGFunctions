@@ -25,10 +25,10 @@ jobs:
         shell: bash
   set-variables:
     runs-on: ubuntu-latest
-    if: "contains('env.AZ_RG','${{ inputs.resourceGroupName }}')"
+    if: "contains(${{ inputs.resourceGroupName }}, 'env.AZ_RG')"
     outputs:
       AZ_RG: "{{ `{{ env.AZURE_RG `}} }}"
-    if: "!contains('env.AZ_RG','${{ inputs.resourceGroupName }}')"
+    if: "!contains(${{ inputs.resourceGroupName }},'env.AZ_RG')"
     outputs:
       AZ_RG: "${{ inputs.resourceGroupName }}"
   build-and-deploy:
