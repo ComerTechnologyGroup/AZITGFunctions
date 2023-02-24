@@ -18,7 +18,7 @@ on:
         default: ./deployment/main.deploy.bicep
         branches:
           - master
-    workflow_dispatch:
+  workflow_dispatch:
     inputs:
       bicepFilePath:
         description: Path to the bicep file
