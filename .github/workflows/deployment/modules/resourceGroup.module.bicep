@@ -3,7 +3,7 @@ param functionAppName string
 param tagValues object
 targetScope = 'subscription'
 
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2022-12-01' = {
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: functionAppName
   location: location
   tags: tagValues
