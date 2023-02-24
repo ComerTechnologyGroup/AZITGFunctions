@@ -23,7 +23,7 @@ on:
       bicepFilePath:
         description: Path to the bicep file
         required: true
-        default: ./deployment/main.deploy.bicep
+        default: .github/workflows/deployment/main.deploy.bicep
     branches:
       - master
 
@@ -32,11 +32,6 @@ env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: "." # set this to the path to your function app project, defaults to the repository root
 
 jobs:
-  echoutput:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Gather details
-        run: echo "${{ inputs }}"
   lint:
     runs-on: ubuntu-latest
     steps:

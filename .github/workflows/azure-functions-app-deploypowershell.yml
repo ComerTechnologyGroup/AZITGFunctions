@@ -1,5 +1,6 @@
 name: Import Azure PowerShell Consumption Function App Using Bicep Template
-on: [workflow_dispatch]
+on:
+  workflow_dispatch
 
 permissions:
   id-token: write
