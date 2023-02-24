@@ -20,7 +20,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   location: location
   sku: {
     name: storageSkuName
-  }a
+  }
   kind: 'Storage'
   tags: tagValues
 }
