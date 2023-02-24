@@ -10,14 +10,25 @@ on:
       resourceGroupName:
         description: Resource Group Name
         required: true
-        default: ${{env.AZURE_RG}}
+        default: 'env.AZURE_RG'
     branches:
       - master
+
+env:
+  if: contains(inputs.resourceGroupName,'env.AZURE_RG')
+  AZ_RG: '${{ env.AZURE_RG }}'
+  run: echo "${{ AZ_RG }}"
+  run: echo "${{ env.AZURE_RG }}"
+  if: "!contains(inputs.resourceGroupName,'env.AZURE_RG')"
+  AZ_RG: '${{ inputs.resourceGroupName }}'
+  run: echo "${{ inputs.resourceGroupName }}"
 
 jobs:
   linter:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate RG Name for Variable
+        run: ::set-output name:
       - name: Checkout Github Repository
         uses: actions/checkout@v3
       - name: Run Bicep Linter
