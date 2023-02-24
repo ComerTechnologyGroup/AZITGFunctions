@@ -10,9 +10,6 @@
 
 name: Deploy PowerShell project to Azure Function App
 
-branding:
-  icon: "package"
-  color: "blue"
 on:
   # push:
   #   inputs:
