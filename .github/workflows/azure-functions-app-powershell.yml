@@ -35,8 +35,10 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - name: "Checkout Github Repo"
+        - uses: action/checkout@v3
       - name: Run Bicep Linter
-        - run: az bicep build --file "${{ inputs.bicepFilePath }}"
+        - run: az bicep build --file ${{ inputs.bicepFilePath }}
         - shell: bash
   build-and-deploy:
     runs-on: windows-latest # For Linux, use ubuntu-latest
