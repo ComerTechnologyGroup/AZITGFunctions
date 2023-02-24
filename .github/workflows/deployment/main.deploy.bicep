@@ -17,7 +17,6 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: functionAppName
   location: location
   tags: tagValues
-  properties: {}
 }
 
 module storageModule './modules/storage.module.bicep' = {
