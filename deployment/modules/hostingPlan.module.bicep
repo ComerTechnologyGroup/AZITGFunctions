@@ -1,12 +1,11 @@
 param location string
-param functionAppName string
-param tagValues object = {}
+param name string
+param tagValues object
 
-var hostingPlanName = functionAppName
 targetScope = 'resourceGroup'
 
 resource hostingPlan 'Microsoft.Web/serverfarms@2022-03-01' = {
-  name: hostingPlanName
+  name: name
   location: location
   sku: {
     name: 'Y1'

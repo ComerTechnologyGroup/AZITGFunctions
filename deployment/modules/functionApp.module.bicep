@@ -1,5 +1,5 @@
 param location string
-param functionAppName string
+param name string
 param tagValues object
 param hostingPlanName string
 param appInnsightInstrKey string
@@ -11,7 +11,7 @@ param connectionString string
 param appInsightConnString string
 
 resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
-  name: functionAppName
+  name: name
   location: location
   kind: 'functionapp,linux'
   tags: tagValues
@@ -22,7 +22,7 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
       appSettings: [
         {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-          value: reference(resourceId('Microsoft.Insights/components', functionAppName), '2020-02-02').InstrumentationKey
+          value: reference(resourceId('Microsoft.Insights/components', name), '2020-02-02').InstrumentationKey
         }
         {
           name: 'APPINSIGHTS_CONNECTION_STRING'
@@ -38,7 +38,7 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
         }
         {
           name: 'WEBSITE_CONTENTSHARE'
-          value: functionAppName
+          value: name
         }
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
@@ -53,6 +53,6 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
   }
 }
 
-output functionAppName string = functionApp.name
+output name string = functionApp.name
 output functionAppUrl string = functionApp.properties.defaultHostName
 output functionAppId string = functionApp.id

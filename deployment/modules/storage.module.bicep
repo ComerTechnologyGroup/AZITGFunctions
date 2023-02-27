@@ -1,7 +1,6 @@
-param location string
-param functionAppName string
+targetScope = 'resourceGroup'
+param name string
 param tagValues object
-
 @allowed([
   'Standard_LRS'
   'Standard_GRS'
@@ -12,18 +11,21 @@ param tagValues object
 ])
 @description('Storage account SKU name')
 param storageSkuName string = 'Standard_LRS'
+param location string = resourceGroup().location
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' = {
-  name: functionAppName
+  name: name
   location: location
   sku: {
     name: storageSkuName
   }
-  kind: 'Storage'
+  kind: 'Storagev2'
   tags: tagValues
 }
+
+var connectionString = 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${listKeys(storageAccount.id, storageAccount.apiVersion).keys[0].value}'
 
 output storageId string = storageAccount.id
 output storageName string = storageAccount.name
 output primaryEndpoints object = storageAccount.properties.primaryEndpoints
-output connectionString string = 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${listKeys(storageAccount.id, storageAccount.apiVersion).keys[0].value}'
+output connectionString string = connectionString
