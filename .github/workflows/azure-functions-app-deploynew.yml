@@ -33,7 +33,5 @@ jobs:
       - name: Deploy Function App
         uses: azure/arm-deploy@v1
         with:
-          creds: ${{secrets.AZURE_CREDENTIALS}}
-          enable-AzPSSession: true
           template: ${{ inputs.bicepFilePath }}
-          failOnStdError: false
+          failOnStdError: true
