@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       bicepFilePath:
-        description: Path to the bicep file
+        description: Template. Path to the bicep file
         required: true
         default: "./deployment/main.deploy.bicep"
       azureRegion:
-        description: You can put a temporary value in this field
+        description: Azure Region. This is a placeholder.
         required: true
         default: "westus"
     branches:
