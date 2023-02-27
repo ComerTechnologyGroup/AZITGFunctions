@@ -35,5 +35,5 @@ jobs:
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
           enable-AzPSSession: true
-          template: { { inputs.bicepFilePath } }
+          template: ${{ inputs.bicepFilePath }}
           failOnStdError: false
