@@ -24,12 +24,11 @@ jobs:
     needs: linter
     steps:
       - name: "Checkout GitHub Action"
-        uses: actions/checkout@v3
+        uses: actions/checkout@master
       - name: Login via Az module
         uses: azure/login@v1
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
-          enable-AzPSSession: true
       - name: Deploy Function App
         uses: azure/arm-deploy@v1
         with:
