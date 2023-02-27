@@ -39,7 +39,6 @@ jobs:
           creds: ${{secrets.AZURE_CREDENTIALS}}
       - name: Create Resource Group
         uses: azure/CLI@v1
-        shell: bash
         with:
           azcliversion: latest
           inlinescript: |
