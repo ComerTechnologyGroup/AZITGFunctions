@@ -38,7 +38,7 @@ jobs:
         with:
           template: ${{ inputs.bicepFilePath }}
           scope: subscription
-          region: "USWest"
+          region: ${{ inputs.azureRegion }}
       - name: Azure CLI script
         uses: azure/CLI@v1
         with:
