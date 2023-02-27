@@ -21,7 +21,6 @@ jobs:
         shell: bash
   build-and-deploy:
     runs-on: ubuntu-latest # For Linux, use ubuntu-latest
-    environment: prod
     needs: linter
     steps:
       - name: "Checkout GitHub Action"
@@ -31,9 +30,7 @@ jobs:
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
           enable-AzPSSession: true
-      - name: echo output
-        run: |
-       - name: Deploy Function App
+      - name: Deploy Function App
          uses: azure/arm-deploy@v1
          with:
            creds: ${{secrets.AZURE_CREDENTIALS}}
