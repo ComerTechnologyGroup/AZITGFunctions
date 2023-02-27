@@ -6,7 +6,7 @@ on:
       bicepFilePath:
         description: Path to the bicep file
         required: true
-        default: ./deployment/main.deploy.bicep
+        default: "./deployment/main.deploy.bicep"
     branches:
       - master
 
