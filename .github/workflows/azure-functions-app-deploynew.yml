@@ -34,4 +34,4 @@ jobs:
         uses: azure/arm-deploy@v1
         with:
           template: ${{ inputs.bicepFilePath }}
-          failOnStdError: true
+          failOnStdError: false
