@@ -8,9 +8,13 @@ on:
         required: true
         default: "./deployment/main.deploy.bicep"
       azureRegion:
-        description: Azure Region. This is a placeholder.
+        description: Azure Region. Please provide desired Azure Region shortname.
         required: true
         default: "westus"
+      azureAppName:
+        description: Azure App Name. All resources will have this in their name.
+        required: true
+        default: "azitgluefunctions"
     branches:
       - master
 
@@ -33,15 +37,29 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
+      - name: Create Resource Group
+        uses: azure/CLI@v1
+        with:
+          azcliversion: latest
+          inlinescript: |
+            #!/bin/bash
+            if(az group exists --name ${{inputs.azureGroupName}}); then
+              echo "${{ inputs.azureGroupName }}" >> $GITHUB_OUTPUT
+            else
+              az group create --name ${{ inputs.azureGroupName }} --location ${{inputs.azureRegion }}
+               echo "${{ inputs.azureGroupName }}" >> $GITHUB_OUTPUT
+            fi
+        id: resource_Group
       - name: Deploy Function App
         uses: azure/arm-deploy@v1
         with:
           template: ${{ inputs.bicepFilePath }}
+          parameters: resourceGroupName=${{ inputs.azureGroupName }}
           scope: subscription
-          region: ${{ inputs.azureRegion }}
       - name: Azure CLI script
         uses: azure/CLI@v1
         with:
+          azcliversion: latest
           inlineScript: |
             az logout
             az cache purge

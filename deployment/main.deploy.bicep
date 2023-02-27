@@ -7,11 +7,12 @@ targetScope = 'subscription'
 /*
 * Parameters
 */
-
+@description('Optional. Name of the Resource Group. It uses rg-\${appName}-{suffix} when not provided.')
+param resourceGroupName string = 'rg-${appName}-${suffix}'
 @description('Optional. Location of the Resource Group. It uses the deployment\'s location when not provided.')
 param location string = deployment().location
 @description('Optional. Suffix for the resource names. It uses a unique string when not provided.')
-param suffix string = substring(uniqueString(subscription().id), 5)
+param suffix string = toLower(substring(uniqueString(subscription().id), 5))
 @description('Optional. Name of the application. It uses azureitglue when not provided.')
 param appName string = 'azureitglue'
 @description('Gathers the current date to be used in the tag values.')
@@ -26,9 +27,6 @@ param tagValues object = {
   source: 'Github'
 }
 
-/* Resource Group Name */
-var resourceGroupName = 'rg-${appName}-${suffix}'
-
 /* Building the Resource Group to be used fore the remaining modules*/
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: resourceGroupName
@@ -39,10 +37,11 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
 /*
 * Variables
 */
-var functionName = toLower('fnc-${appName}-${uniqueString(resourceGroup.id)}')
-var storageName = toLower(substring('st${appName}${uniqueString(resourceGroup.id)}', 24))
-var appInsighName = toLower('ai-${appName}-${uniqueString(resourceGroup.id)}')
-var hostingPlanName = toLower('hp-${appName}-${uniqueString(resourceGroup.id)}')
+var rGSuffix = toLower('${appName}-${substring(uniqueString(resourceGroup.id), 5)}')
+var functionName = toLower('fnc-${appName}-${rGSuffix}}')
+var storageName = toLower(substring('st${appName}${rGSuffix}', 24))
+var appInsighName = toLower('ai-${appName}-${rGSuffix}')
+var hostingPlanName = toLower('hp-${appName}-${rGSuffix}')
 
 output storageNameOutput string = storageName
 
