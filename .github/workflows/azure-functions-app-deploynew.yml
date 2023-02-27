@@ -39,22 +39,23 @@ jobs:
           creds: ${{secrets.AZURE_CREDENTIALS}}
       - name: Create Resource Group
         uses: azure/CLI@v1
+        shell: bash
         with:
           azcliversion: latest
           inlinescript: |
             #!/bin/bash
             if(az group exists --name ${{ inputs.azureAppName }}); then
-              echo "${{ inputs.azureAppName }}" >> $GITHUB_OUTPUT
+              echo "AppName=${{inputs.azureAppName}}" >> $GITHUB_OUTPUT
             else
               az group create --name ${{ inputs.azureGroupName }} --location ${{inputs.azureRegion }}
-               echo "${{ inputs.azureAppName }}" >> $GITHUB_OUTPUT
+               echo "AppName=${{inputs.azureAppName}}" >> $GITHUB_OUTPUT
             fi
         id: resource_Group
       - name: Deploy Function App
         uses: azure/arm-deploy@v1
         with:
           template: ${{ inputs.bicepFilePath }}
-          parameters: resourceGroupName=${{ inputs.azureAppName }}
+          parameters: resourceGroupName=${{ needs.resource_Group.outputs.AppName}}
           scope: subscription
       - name: Azure CLI script
         uses: azure/CLI@v1
