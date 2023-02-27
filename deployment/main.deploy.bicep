@@ -7,8 +7,7 @@ targetScope = 'subscription'
 /*
 * Parameters
 */
-@description('Optional. Subscription ID. It uses the current subscription when not provided.')
-param subscriptionId string
+
 @description('Optional. Location of the Resource Group. It uses the deployment\'s location when not provided.')
 param location string = deployment().location
 @description('Optional. Suffix for the resource names. It uses a unique string when not provided.')
