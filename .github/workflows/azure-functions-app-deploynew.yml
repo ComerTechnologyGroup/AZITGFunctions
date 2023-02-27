@@ -31,9 +31,9 @@ jobs:
           creds: ${{secrets.AZURE_CREDENTIALS}}
           enable-AzPSSession: true
       - name: Deploy Function App
-         uses: azure/arm-deploy@v1
-         with:
-           creds: ${{secrets.AZURE_CREDENTIALS}}
-           enable-AzPSSession: true
-           template: { { inputs.bicepFilePath } }
-           failOnStdError: false
+        uses: azure/arm-deploy@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+          enable-AzPSSession: true
+          template: { { inputs.bicepFilePath } }
+          failOnStdError: false
