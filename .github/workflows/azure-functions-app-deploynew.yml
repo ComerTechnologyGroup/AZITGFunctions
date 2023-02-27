@@ -7,6 +7,10 @@ on:
         description: Path to the bicep file
         required: true
         default: "./deployment/main.deploy.bicep"
+      azureRegion:
+        description: You can put a temporary value in this field
+        required: true
+        default: "westus"
     branches:
       - master
 
