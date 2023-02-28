@@ -31,9 +31,3 @@ jobs:
         with:
           app-name: ${{ env.appName}}
           app-settings-json: ${{ secrets.APPLICATION_SETTINGS }}
-      - name: "Run Azure Functions Action"
-        uses: Azure/functions-action@v1
-        id: fa
-        with:
-          app-name: ${{ env.AappName}}
-          package: ${{ env.packagePath }}

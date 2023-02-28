@@ -39,6 +39,12 @@ jobs:
           scope: subscription
           region: ${{inputs.regionName}}
           template: ${{ inputs.bicepFilePath }}
+      - name: "Update App Service Settings"
+        uses: Azure/appservice-settings@v1
+        id: settings
+        with:
+          app-name: ${{ env.appName}}
+          app-settings-json: ${{ secrets.APPLICATION_SETTINGS }}
       - name: Azure CLI script
         uses: azure/CLI@v1
         with:
