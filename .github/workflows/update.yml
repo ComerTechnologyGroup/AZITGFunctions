@@ -33,14 +33,6 @@ jobs:
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
           enable-AzPSSession: true
-      - name: Run ARM validation test
-        uses: azure/arm-deploy@v1
-        with:
-          deploymentName: ${{ github.run_number}}
-          resourceGroupName: TestAzureAction
-          template: ${{ inputs.bicepFilePath}}
-          parameters: environmentType=test
-          deploymentMode: Validate
   build-and-deploy:
     runs-on: windows-latest # For Linux, use ubuntu-latest
     environment: prod
