@@ -46,8 +46,7 @@ jobs:
         uses: actions/update-artifact@v3
         with:
           name: functionAppName
-          path: |
-            /deployment/artifacts/functionAppName.txt
+          path: deployment/artifacts/functionAppName.txt
       - name: "Update App Service Settings"
           uses: Azure/appservice-settings@v1
           id: settings
