@@ -3,7 +3,6 @@ param name string
 param tagValues object
 param hostingPlanName string
 param appInnsightInstrKey string
-
 param functionWorkerRuntime string
 @secure()
 param connectionString string
@@ -22,7 +21,7 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
       appSettings: [
         {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-          value: reference(resourceId('Microsoft.Insights/components', name), '2020-02-02').InstrumentationKey
+          value: appInnsightInstrKey
         }
         {
           name: 'APPINSIGHTS_CONNECTION_STRING'

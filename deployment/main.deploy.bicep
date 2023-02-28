@@ -79,6 +79,7 @@ module hostingPlanModule './modules/hostingPlan.module.bicep' = {
   }
   dependsOn: [
     storageModule
+    appInsightModule
   ]
 }
 
@@ -89,7 +90,7 @@ module functionAppModule './modules/functionApp.module.bicep' = {
   params: {
     location: resourceGroup.location
     appInnsightInstrKey: appInsightModule.outputs.appInsightInstrKey
-    appInsightConnString: appInsightModule.outputs.appInsightConnString
+    appInsightConnString: appInsightModule.outputs.appInsightConnStringOutput
     name: functionName
     functionWorkerRuntime: 'powershell'
     hostingPlanName: hostingPlanModule.outputs.hostingPlanName

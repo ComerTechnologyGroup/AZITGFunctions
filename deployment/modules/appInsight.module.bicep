@@ -1,6 +1,6 @@
 param location string
 param name string
-param tagValues object = {}
+param tagValues object
 targetScope = 'resourceGroup'
 
 resource applicationInsight 'Microsoft.Insights/components@2020-02-02' = {
@@ -16,5 +16,5 @@ resource applicationInsight 'Microsoft.Insights/components@2020-02-02' = {
 var appInsightConnString = applicationInsight.properties.ConnectionString
 
 output appInsightName string = applicationInsight.properties.Name
-output appInsightConnString string = appInsightConnString
+output appInsightConnStringOutput string = appInsightConnString
 output appInsightInstrKey string = applicationInsight.properties.InstrumentationKey
