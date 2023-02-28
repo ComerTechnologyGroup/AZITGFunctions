@@ -41,8 +41,7 @@ jobs:
           region: ${{inputs.regionName}}
           template: ${{ inputs.bicepFilePath }}
       - name: Create artifact
-        run: |
-          mkdir artifacts && echo "${{ steps.deploy-app.outputs.functionAppName" }} > /artifacts/functionAppName.txt
+        run: mkdir artifacts && echo "${{ steps.deploy-app.outputs.functionAppName }}" > /artifacts/functionAppName.txt
       - name: Archive Function App Artifacts
         uses: actions/upload-artifact@v3
         with:
