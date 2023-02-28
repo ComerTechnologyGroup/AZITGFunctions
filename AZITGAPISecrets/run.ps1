@@ -34,7 +34,11 @@ $modules.GetEnumerator() | ForEach-Object {
         }
     }
     try {
-        Import-Module -Name $_.name -UseWindowsPowerShell -ErrorAction Stop | Out-Null
+        if ($_.name -like '*Glue*') {
+            Import-Module -Name $_.name -UseWindowsPowerShell -ErrorAction Stop | Out-Null
+        } else {
+            Import-Module -Name $_.name -ErrorAction Stop | Out-Null
+        }
         Write-Output "Successfully imported Module: $($_.name)"
     } catch {
         Write-Output "ERROR: Failed to import Module: $($_.name). Result: $($_.exception.message)"
