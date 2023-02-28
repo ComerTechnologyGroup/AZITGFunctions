@@ -7,19 +7,12 @@ on:
         description: Bicep Template. Path to the bicep file
         required: true
         default: "./deployment/main.deploy.bicep"
-      azureRegion:
-        description: Azure Region. Please provide desired Azure Region shortname.
-        required: true
-        default: "westus"
-      azureAppName:
-        description: Azure App Name. All resources will have this in their name.
-        required: true
-        default: "azitgluefunctions"
     branches:
       - master
 
 jobs:
   linter:
+    description: Lints the Bicep Template to check for errors
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Github Repository
@@ -27,9 +20,10 @@ jobs:
       - name: Run Bicep Linter
         run: az bicep build --file ${{ inputs.bicepFilePath }}
         shell: bash
-  
+
   build-and-deploy:
-    runs-on: ubuntu-latest # For Linux, use ubuntu-latest
+    description: Builds and deploys the Function App using the Bicep Template
+    runs-on: ubuntu-latest
     needs: linter
     steps:
       - name: "Checkout GitHub Action"
