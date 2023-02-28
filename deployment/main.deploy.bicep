@@ -7,12 +7,10 @@ targetScope = 'subscription'
 /*
 * Parameters
 */
-@description('Optional. Name of the Resource Group. It uses rg-\${appName}-{suffix} when not provided.')
-param resourceGroupName string = 'rg-${appName}-${suffix}'
 @description('Optional. Location of the Resource Group. It uses the deployment\'s location when not provided.')
 param location string = deployment().location
 @description('Optional. Suffix for the resource names. It uses a unique string when not provided.')
-param suffix string = toLower(substring(uniqueString(subscription().id), 5))
+param suffix string = toLower('${appName}-${substring(uniqueString(subscription().id), 5)}')
 @description('Optional. Name of the application. It uses azureitglue when not provided.')
 param appName string = 'azureitglue'
 @description('Gathers the current date to be used in the tag values.')
@@ -28,26 +26,25 @@ param tagValues object = {
 }
 
 /* Building the Resource Group to be used fore the remaining modules*/
+var resourceGroupName = 'rg-${appName}-${suffix}'
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: resourceGroupName
   location: location
   tags: tagValues
 }
+output resourceGroupId string = resourceGroup.id
 
 /*
 * Variables
 */
-var rGSuffix = toLower('${appName}-${substring(uniqueString(resourceGroup.id), 5)}')
-var functionName = toLower('fnc-${appName}-${rGSuffix}}')
-var storageName = toLower(substring('st${appName}${rGSuffix}', 24))
-var appInsighName = toLower('ai-${appName}-${rGSuffix}')
-var hostingPlanName = toLower('hp-${appName}-${rGSuffix}')
-
-output storageNameOutput string = storageName
+var functionName = toLower('fnc-${appName}-${suffix}}')
+var storageName = toLower('st${appName}${suffix}')
+var appInsighName = toLower('ai-${appName}-${suffix}')
+var hostingPlanName = toLower('hp-${appName}-${suffix}')
 
 /* Building the Storage */
 module storageModule './modules/storage.module.bicep' = {
-  name: 'storageDeployment'
+  name: 'storageDeployment-${currentDate}'
   scope: resourceGroup
   params: {
     location: resourceGroup.location
@@ -58,7 +55,7 @@ module storageModule './modules/storage.module.bicep' = {
 
 /* Building the App Insights for the Function App */
 module appInsightModule './modules/appInsight.module.bicep' = {
-  name: 'appInsightDeployment'
+  name: 'appInsightDeployment-${currentDate}'
   scope: resourceGroup
   params: {
     location: location
@@ -72,7 +69,7 @@ module appInsightModule './modules/appInsight.module.bicep' = {
 
 /* Building the Hosting Plan */
 module hostingPlanModule './modules/hostingPlan.module.bicep' = {
-  name: 'hostingPlanDeployment'
+  name: 'hostingPlanDeployment-${currentDate}'
   scope: resourceGroup
   params: {
     location: resourceGroup.location
@@ -86,7 +83,7 @@ module hostingPlanModule './modules/hostingPlan.module.bicep' = {
 
 /* Building the Function App */
 module functionAppModule './modules/functionApp.module.bicep' = {
-  name: 'functionAppDeployment'
+  name: 'functionAppDeployment-${currentDate}'
   scope: resourceGroup
   params: {
     location: resourceGroup.location

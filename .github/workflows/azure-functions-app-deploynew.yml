@@ -27,6 +27,7 @@ jobs:
       - name: Run Bicep Linter
         run: az bicep build --file ${{ inputs.bicepFilePath }}
         shell: bash
+  
   build-and-deploy:
     runs-on: ubuntu-latest # For Linux, use ubuntu-latest
     needs: linter
@@ -37,24 +38,10 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
-      - name: Create Resource Group
-        uses: azure/CLI@v1
-        with:
-          azcliversion: latest
-          inlinescript: |
-            #!/bin/bash
-            if(az group exists --name ${{ inputs.azureAppName }}); then
-              echo "AppName=${{inputs.azureAppName}}" >> $GITHUB_OUTPUT
-            else
-              az group create --name ${{ inputs.azureGroupName }} --location ${{inputs.azureRegion }}
-               echo "AppName=${{inputs.azureAppName}}" >> $GITHUB_OUTPUT
-            fi
-        id: resource_Group
       - name: Deploy Function App
         uses: azure/arm-deploy@v1
         with:
           template: ${{ inputs.bicepFilePath }}
-          parameters: resourceGroupName=${{ needs.resource_Group.outputs.AppName}}
           scope: subscription
       - name: Azure CLI script
         uses: azure/CLI@v1
