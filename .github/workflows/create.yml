@@ -31,9 +31,11 @@ jobs:
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
       - name: Deploy Function App
-        uses: azure/arm-deploy@v1
+        uses: azure/CLI@v2
         with:
-          template: ${{ inputs.bicepFilePath }}
+          azcliversion: latest
+          inlineScript: |
+            az deployment --template-file ${{ inputs.bicepFilePath }}
       - name: Azure CLI script
         uses: azure/CLI@v1
         with:
