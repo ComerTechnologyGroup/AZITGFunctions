@@ -7,6 +7,7 @@ targetScope = 'subscription'
 /*
 * Parameters
 */
+param resourceGroupName string = 'rg-${appName}-${suffix}'
 @description('Optional. Location of the Resource Group. It uses the deployment\'s location when not provided.')
 param location string = deployment().location
 @description('Optional. Suffix for the resource names. It uses a unique string when not provided.')
@@ -26,7 +27,7 @@ param tagValues object = {
 }
 
 /* Building the Resource Group to be used fore the remaining modules*/
-var resourceGroupName = 'rg-${appName}-${suffix}'
+
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: resourceGroupName
   location: location
