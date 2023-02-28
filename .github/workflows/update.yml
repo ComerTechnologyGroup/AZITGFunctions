@@ -2,11 +2,6 @@ name: "Update Function App on Pull"
 
 on:
   workflow_dispatch:
-    inputs:
-      bicepFilePath:
-        description: Path to the bicep file
-        required: true
-        default: .github/workflows/deployment/main.deploy.bicep
     branches:
       - master
 
