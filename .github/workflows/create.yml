@@ -42,8 +42,7 @@ jobs:
           template: ${{ inputs.bicepFilePath }}
       - name: Create artifact
         run: |
-        if [[ ! -f '/deployment/functionAppName.txt' ]]; then touch '/deployment/functionAppName.txt'; fi
-        echo ${{ steps.deploy-app.outputs.functionAppName }} > /deployment/functionAppName.txt
+          mkdir artifacts && echo "${{ steps.deploy-app.outputs.functionAppName" }} > /artifacts/functionAppName.txt
       - name: Archive Function App Artifacts
         uses: actions/upload-artifact@v3
         with:
