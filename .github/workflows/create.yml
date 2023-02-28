@@ -40,8 +40,7 @@ jobs:
           scope: subscription
           region: ${{inputs.regionName}}
           template: ${{ inputs.bicepFilePath }}
-      - run: mkdir -p /deployment/artifacts
-      - run: echo ${{ steps.deploy-app.outputs.functionAppName }} > /deployment/artifacts/functionAppName.txt
+      - run: echo ${{ steps.deploy-app.outputs.functionAppName }} > /deployment/functionAppName.txt
       - name: Archive Function App Artifacts
         uses: actions/update-artifact@v3
         with:
