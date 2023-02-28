@@ -38,7 +38,7 @@ output resourceGroupId string = resourceGroup.id
 /*
 * Variables
 */
-var functionName = toLower('fnc-${appName}-${suffix}}')
+var functionName = toLower('fnc-${appName}-${suffix}')
 var storageName = toLower('st${appName}${suffix}')
 var appInsighName = toLower('ai-${appName}-${suffix}')
 var hostingPlanName = toLower('hp-${appName}-${suffix}')
