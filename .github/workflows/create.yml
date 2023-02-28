@@ -40,8 +40,10 @@ jobs:
           scope: subscription
           region: ${{inputs.regionName}}
           template: ${{ inputs.bicepFilePath }}
-      - run: if [[ ! -f '/deployment/functionAppName.txt' ]]; then touch '/deployment/functionAppName.txt'; fi
-      - run: echo ${{ steps.deploy-app.outputs.functionAppName }} > /deployment/functionAppName.txt
+      - name: Create artifact
+        run: |
+        if [[ ! -f '/deployment/functionAppName.txt' ]]; then touch '/deployment/functionAppName.txt'; fi
+        echo ${{ steps.deploy-app.outputs.functionAppName }} > /deployment/functionAppName.txt
       - name: Archive Function App Artifacts
         uses: actions/upload-artifact@v3
         with:
