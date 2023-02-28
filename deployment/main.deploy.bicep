@@ -11,7 +11,7 @@ param resourceGroupName string = 'rg-${appName}-${suffix}'
 @description('Optional. Location of the Resource Group. It uses the deployment\'s location when not provided.')
 param location string = deployment().location
 @description('Optional. Suffix for the resource names. It uses a unique string when not provided.')
-param suffix string = toLower('${appName}-${substring(uniqueString(subscription().id), 5)}')
+param suffix string = toLower('${substring(uniqueString(subscription().id), 5)}')
 @description('Optional. Name of the application. It uses azureitglue when not provided.')
 param appName string = 'azureitglue'
 @description('Gathers the current date to be used in the tag values.')
