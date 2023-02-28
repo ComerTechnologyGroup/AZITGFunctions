@@ -9,7 +9,7 @@ on:
         default: "./deployment/main.deploy.bicep"
       regionName:
         description: Placeholder for the region
-        default: "uswest"
+        default: "westus"
     branches:
       - master
 
@@ -38,7 +38,6 @@ jobs:
         with:
           scope: subscription
           region: ${{inputs.regionName}}
-          azcliversion: latest
           template: ${{ inputs.bicepFilePath }}
       - name: Azure CLI script
         uses: azure/CLI@v1
