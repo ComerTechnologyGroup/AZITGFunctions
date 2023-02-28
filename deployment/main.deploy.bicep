@@ -26,7 +26,7 @@ param tagValues object = {
   source: 'Github'
 }
 
-/* Building the Resource Group to be used fore the remaining modules*/
+/* Building the Resource Group to be used for the remaining modules*/
 
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: resourceGroupName

@@ -7,10 +7,9 @@ on:
         description: Bicep Template. Path to the bicep file
         required: true
         default: "./deployment/main.deploy.bicep"
-      appName:
-        description: Application name to create the resource Group
-        required: true
-        default: "azureItGlue"
+      regionName:
+        description: Placeholder for the region
+        default: "uswest"
     branches:
       - master
 
@@ -37,9 +36,10 @@ jobs:
       - name: Deploy Function App
         uses: azure/arm-deploy@v1
         with:
+          scope: subscription
+          region: ${{inputs.regionName}}
           azcliversion: latest
           template: ${{ inputs.bicepFilePath }}
-          parameters: resourceGroupName=${{inputs.resourceGroupName}}
       - name: Azure CLI script
         uses: azure/CLI@v1
         with:
