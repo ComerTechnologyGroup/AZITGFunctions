@@ -40,19 +40,6 @@ jobs:
           scope: subscription
           region: ${{inputs.regionName}}
           template: ${{ inputs.bicepFilePath }}
-      - name: Create artifact
-        run: mkdir artifacts && echo "${{ steps.deploy-app.outputs.functionAppName }}" > /artifacts/functionAppName.txt
-      - name: Archive Function App Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: functionAppName
-          path: deployment/artifacts/functionAppName.txt
-      - name: "Update App Service Settings"
-        uses: Azure/appservice-settings@v1
-        id: settings
-        with:
-          app-name: ${{ steps.deploy-app.outputs.functionAppName }
-          app-settings-json: ${{ secrets.APPLICATION_SETTINGS }}
       - name: Azure CLI script
         with:
           azcliversion: latest
