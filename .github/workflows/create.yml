@@ -14,18 +14,8 @@ on:
       - master
 
 jobs:
-  linter:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Github Repository
-        uses: actions/checkout@v3
-      - name: Run Bicep Linter
-        run: az bicep build --file ${{ inputs.bicepFilePath }}
-        shell: bash
-
   build-and-deploy:
     runs-on: ubuntu-latest
-    needs: linter
     steps:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@master
@@ -40,10 +30,3 @@ jobs:
           scope: subscription
           region: ${{inputs.regionName}}
           template: ${{ inputs.bicepFilePath }}
-      - name: Azure CLI script
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az logout
-            az cache purge
-            az account clear
