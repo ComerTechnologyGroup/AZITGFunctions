@@ -24,7 +24,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   tags: tagValues
 }
 
-var connectionString = 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${listKeys(storageAccount.id, storageAccount.apiVersion).keys[0].value}'
+var connectionString = 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccount.listKeys().keys[0].value}'
 
 output storageId string = storageAccount.id
 output storageName string = storageAccount.name
