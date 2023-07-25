@@ -27,9 +27,10 @@ jobs:
           app-name: ${{ env.appName}}
           app-settings-json: ${{ secrets.APPLICATION_SETTINGS }}
       - name: Bicep Build
-        uses: aliencube/bicep-build-actions@v0.3
+        uses: Azure/bicep-build-action@v1.0.0
         with:
-          files: './deployment/main.deploy.bicep'
+          bicepFilePath: './deployment/main.deploy.bicep'
+          outputFilePath: './deployment/azuredeploy.json'
       # Checks the result
       - name: Check the result
         shell: bash
