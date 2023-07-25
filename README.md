@@ -1,1 +1,1 @@
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FComerTechnologyGroup%2FAZITGFunctions%2Fmaster%2F.github%2Fworkflows%2Fdeployment%2Fmain.deploy.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FComerTechnologyGroup%2FAZITGFunctions%2Fmaster%2Fdeployment%2Fmain.deploy.json){:target="_blank"}
