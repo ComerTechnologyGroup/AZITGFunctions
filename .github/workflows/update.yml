@@ -32,7 +32,7 @@ jobs:
           https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
           chmod +x ./bicepinstall
           sudo mv ./bicepinstall /usr/local/bin/bicep
-        bicep --help
+          bicep --help
       - name: Run Bicep build
         run: |
           bicep build deployment/main.deploy.bicep
