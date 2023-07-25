@@ -26,14 +26,13 @@ jobs:
         with:
           app-name: ${{ env.appName}}
           app-settings-json: ${{ secrets.APPLICATION_SETTINGS }}
-      - name: Install Bicep build
+      - name: Bicep Build
+        uses: aliencube/bicep-build-actions@v0.3
+        with:
+          files: /deployment/main.deploy.bicep
+      # Checks the result
+      - name: Check the result
+        shell: bash
         run: |
-          curl -Lo bicepinstall
-          https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
-          chmod +x ./bicepinstall
-          sudo mv ./bicepinstall /usr/local/bin/bicep
-          bicep --help
-      - name: Run Bicep build
-        run: |
-          bicep build deployment/main.deploy.bicep
-          ls -l deploy/*.json
+          shopt -s globstar
+          ls -altR **/main.deploy*.*
