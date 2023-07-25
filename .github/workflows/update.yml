@@ -29,7 +29,7 @@ jobs:
       - name: Bicep Build
         uses: aliencube/bicep-build-actions@v0.3
         with:
-          files: /deployment/main.deploy.bicep
+          files: './deployment/main.deploy.bicep'
       # Checks the result
       - name: Check the result
         shell: bash
