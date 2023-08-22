@@ -31,3 +31,8 @@ jobs:
           scope: subscription
           region: ${{inputs.regionName}}
           template: ${{ inputs.bicepFilePath }}
+      - name: Bicep Build
+        uses: Azure/bicep-build-action@v1.0.1
+        with:
+          bicepFilePath: ${{ inputs.bicepFilePath }}
+          outputFilePath: "./deployment/azuredeploy.json"

@@ -27,10 +27,10 @@ jobs:
           app-name: ${{ env.appName}}
           app-settings-json: ${{ secrets.APPLICATION_SETTINGS }}
       - name: Bicep Build
-        uses: Azure/bicep-build-action@v1.0.0
+        uses: Azure/bicep-build-action@v1.0.1
         with:
-          bicepFilePath: './deployment/main.deploy.bicep'
-          outputFilePath: './deployment/azuredeploy.json'
+          bicepFilePath: "./deployment/main.deploy.bicep"
+          outputFilePath: "./deployment/azuredeploy.json"
       # Checks the result
       - name: Check the result
         shell: bash
